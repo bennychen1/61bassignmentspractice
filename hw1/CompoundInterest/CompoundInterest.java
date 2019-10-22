@@ -4,14 +4,14 @@
  */
 public class CompoundInterest {
     /** Current year. */
-    static final int THIS_YEAR = 2018;
+    static final int THIS_YEAR = 2019;
 
     /** Return the number of years between TARGETYEAR and THIS_YEAR,
      *  e.g. if THIS_YEAR is 2018 and TARGETYEAR is 2019, the result
      *  should be 1. Throughout the assignment it is OK to assume that
      *  TARGETYEAR is >= THIS_YEAR. */
     static int numYears(int targetYear) {
-        return 0;
+        return targetYear - THIS_YEAR;
     }
 
     /** Suppose we have an asset worth PRESENTVALUE that appreciates
@@ -23,7 +23,12 @@ public class CompoundInterest {
      *  then the futureValue will be 10*1.12*1.12 = 12.544. */
     static double futureValue(double presentValue, double rate,
                               int targetYear) {
-        return 0;
+        double mutliplyBy = 1 + (rate / 100);
+        double val = presentValue;
+        for (int i = 0; i < numYears(targetYear); i++) {
+            val = val * mutliplyBy;
+        }
+        return val;
     }
 
     /** Returns returns the value, in THIS_YEAR dollars, of an asset
