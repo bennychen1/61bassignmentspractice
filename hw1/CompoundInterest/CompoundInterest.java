@@ -54,7 +54,12 @@ public class CompoundInterest {
      *  then the result will be 5000*1.1*1.1 + 5000*1.1 + 5000 =
      *  16550. */
     static double totalSavings(double perYear, int targetYear, double rate) {
-        return 0;
+        double val = 0;
+        int j = THIS_YEAR;
+        for (int i = THIS_YEAR; i <= targetYear; i++) {
+            val = val + futureValue(perYear, rate, i);
+        }
+        return val;
     }
 
     /** Returns totalSavings(PERYEAR, TARGETYEAR, RATE) converted to

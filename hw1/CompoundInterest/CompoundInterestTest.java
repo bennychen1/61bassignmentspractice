@@ -30,6 +30,8 @@ public class CompoundInterestTest {
     @Test
     public void testTotalSavings() {
         double tolerance = 0.01;
+        assertEquals(16550, CompoundInterest.totalSavings(5000,  2021, 10), tolerance);
+        assertEquals(4115.45, CompoundInterest.totalSavings(1000, 2022, 1.9), tolerance);
     }
 
     @Test
