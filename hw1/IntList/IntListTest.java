@@ -64,6 +64,13 @@ public class IntListTest {
 
     @Test
     public void testSublist() {
+        IntList A = IntList.list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        IntList ACopy = IntList.list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        assertEquals(IntList.list(5, 6, 7), IntList.sublist(A, 4, 3));
+        assertEquals(ACopy, IntList.sublist(A, 0, 10));
+        assertNull(IntList.sublist(A, 9, 2));
+        assertEquals(ACopy, A);
 
     }
 
@@ -75,6 +82,12 @@ public class IntListTest {
 
     @Test
     public void testDsublist() {
+        IntList A = IntList.list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        IntList B = IntList.list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        IntList ACopy = IntList.list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        assertNull(IntList.dsublist(A, 9, 2));
+        assertEquals(IntList.list(5, 6, 7), IntList.dsublist(B, 4, 3));
+        assertNotEquals(ACopy, B);
     }
 
 

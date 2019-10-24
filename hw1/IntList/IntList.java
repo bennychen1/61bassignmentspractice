@@ -179,19 +179,48 @@ public class IntList {
      *  that start and len are always >= 0.
      */
     static IntList sublist(IntList L, int start, int len) {
-        return null;  // REPLACE WITH YOUR SOLUTION
+        IntList sub = IntList.subTail(L, start);
+
+        if (sub == null) {
+            return null;
+        }
+
+        IntList res = IntList.list(sub.head);
+        IntList p = res;
+        sub = sub.tail;
+
+        for (int count = 1; count < len; count++, sub = sub.tail) {
+            if (sub == null) {
+                return null;
+            }
+            p.tail = IntList.list(sub.head);
+            p = p.tail;
+        }
+
+        return res;  // REPLACE WITH YOUR SOLUTION
 
     }
 
     /* 2d. */
     /** Returns the sublist consisting of LEN items from list L,
      *  beginning with item #START (where the first item is #0).
-     *  May modify the original list elements. Don't use 'new'
+     *  May modify the original list elements. Don't use new'
      *  or the sublist method.
      *  As with sublist, you can assume the items requested
      *  exist, and that START and LEN are >= 0. */
     static IntList dsublist(IntList L, int start, int len) {
-        return null; // REPLACE WITH YOUR SOLUTION
+        IntList sub = subTail(L, start);
+        IntList p = sub;
+
+        for (int count = 1; count < len; count++) {
+            if (p.tail == null) {
+                return null;
+            }
+            p = p.tail;
+        }
+
+        p.tail = null;
+        return sub; // REPLACE WITH YOUR SOLUTION
 
     }
 
