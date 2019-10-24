@@ -42,7 +42,8 @@ public class CompoundInterest {
      *  2018 dollars, we get 12.544 * 0.97 * 0.97 = 11.8026496 dollars. */
     static double futureValueReal(double presentValue, double rate,
                                   int targetYear, double inflationRate) {
-        return 0;
+        double futureVal = futureValue(presentValue, rate, targetYear);
+        return futureValue(futureVal, -inflationRate, targetYear);
     }
 
     /** Suppose you invest PERYEAR dollars at the end of every year until

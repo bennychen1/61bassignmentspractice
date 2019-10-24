@@ -23,8 +23,9 @@ public class CompoundInterestTest {
     @Test
     public void testFutureValueReal() {
         double tolerance = 0.01;
+        assertEquals(11.80, CompoundInterest.futureValueReal(10, 12, 2021, 3), tolerance);
+        assertEquals(101.77, CompoundInterest.futureValueReal(100, 1.9, 2021, 1), tolerance);
     }
-
 
     @Test
     public void testTotalSavings() {
