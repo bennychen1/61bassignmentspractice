@@ -1,8 +1,8 @@
 import java.util.Formatter;
 
-/** Scheme-like pairs that can be used to form a list of integers.
- *  @author P. N. Hilfinger, with some modifications by Josh Hug
- */
+/** Scheme-l some modifications by Josh Hug
+ ike pairs that can be used to form a list of integers.
+        *  @author P. N. Hilfinger, with **/
 public class IntList {
     /** First element of list. */
     public int head;
@@ -138,7 +138,12 @@ public class IntList {
      *  elements of B.  May modify items of A. Don't use 'new'. */
 
     static IntList dcatenate(IntList A, IntList B) {
-        return null; // REPLACE WITH YOUR CODE */
+        IntList p = A;
+        while (p.tail != null) {
+            p = p.tail;
+        }
+        p.tail = B;
+        return A; // REPLACE WITH YOUR CODE */
 
     }
 
@@ -150,7 +155,15 @@ public class IntList {
       * This method should NOT modify the items in L. */
 
     static IntList subTail(IntList L, int start) {
-        return null; // REPLACE WITH YOUR CODE
+        IntList p = L;
+        for (int count = 0; count < start; count++ ){
+            if (p.tail != null) {
+                p = p.tail;
+            } else {
+                return null;
+            }
+        }
+        return p; // REPLACE WITH YOUR CODE
     }
 
 
