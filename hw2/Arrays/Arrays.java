@@ -40,19 +40,23 @@ class Arrays {
     static int[] remove(int[] A, int start, int len) {
         /* *Replace this body with the solution. */
 
-        if (A == null || A.length == 0) {
+        if (A == null || A.length == 0 || len == 0) {
             return A;
         }
 
         if (start + len > A.length) {
-            retu
+            int [] res = new int[start - 1]; /* Copy up to but not including the START-th element */
+            System.arraycopy(A, 0, res, 0, res.length);
+            return res;
         }
 
         int[] res = new int[A.length - len];
+        System.arraycopy(A, 0, res, 0, start - 1);  /* Copy up to but not including the START-th element */
+        System.arraycopy(A, start + len - 1, res, start - 1, res.length - start + 1);
+        /* Start copying at the item at index after the last removed item. Already copied START - 1 elements.  */
+        /* start copying to start - 1 because of 0 indexing */
 
-        int p = 0;
-
-        return new int[4];
+        return res;
     }
 
     /* E. */
@@ -63,6 +67,33 @@ class Arrays {
      *  {{1, 3, 7}, {5}, {4, 6, 9, 10}}. */
     static int[][] naturalRuns(int[] A) {
         /* *Replace this body with the solution. */
-        return null;
+
+        int[][]res = new int[A.length][];
+
+        int start = 0;
+        int i = 0;
+        int c = 1;
+        int resP = 0;
+
+        for (; c < A.length; i++, c++) {
+            if (A[i] < A[c]) {
+                continue;
+            } else {
+                int[] curArr = new int[i - start + 1];
+                System.arraycopy(A, start, curArr, 0, i - start + 1);
+                res[resP] = curArr;
+                start = c;
+                resP += 1;
+            }
+        }
+
+        int[] curArr = new int[i - start + 1];
+        System.arraycopy(A, start, curArr, 0, curArr.length);
+        res[resP] = curArr;
+
+        int[][] actualRes = new int[resP + 1][]; /* Plus one because 0 indexing */
+        System.arraycopy(res, 0, actualRes, 0, actualRes.length);
+
+        return actualRes;
     }
 }
