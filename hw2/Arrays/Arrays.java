@@ -68,7 +68,18 @@ class Arrays {
     static int[][] naturalRuns(int[] A) {
         /* *Replace this body with the solution. */
 
-        int[][]res = new int[A.length][];
+        int numRuns = 0;
+        int index = 0;
+
+        while (index < A.length - 1) {
+            if (A[index] >= A[index + 1]) {
+                numRuns += 1;
+            }
+
+            index += 1;
+        }
+
+        int[][]res = new int[numRuns + 1][]; /* Plus one to get the last run */
 
         int start = 0;
         int i = 0;
@@ -90,10 +101,7 @@ class Arrays {
         int[] curArr = new int[i - start + 1];
         System.arraycopy(A, start, curArr, 0, curArr.length);
         res[resP] = curArr;
-
-        int[][] actualRes = new int[resP + 1][]; /* Plus one because 0 indexing */
-        System.arraycopy(res, 0, actualRes, 0, actualRes.length);
-
-        return actualRes;
+        
+        return res;
     }
 }
