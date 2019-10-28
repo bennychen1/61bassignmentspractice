@@ -101,7 +101,7 @@ class Arrays {
         int[] curArr = new int[i - start + 1];
         System.arraycopy(A, start, curArr, 0, curArr.length);
         res[resP] = curArr;
-        
+
         return res;
     }
 }
