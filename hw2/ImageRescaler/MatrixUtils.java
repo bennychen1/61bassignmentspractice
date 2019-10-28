@@ -53,7 +53,39 @@ public class MatrixUtils {
      */
 
     public static double[][] accumulateVertical(double[][] m) {
-        return null; //your code here
+        double[][]am = new double[m.length][];
+        am[0] = m[0];
+
+        /* Fill out the AM matrix besides top row */
+        for (int i = 1; i < am.length; i++) {
+            double[]a = new double[m[i].length];
+            for (int c = 0; c < m[i].length; c++) {
+                a[c] = 0;
+            }
+            am[i] = a;
+
+        }
+
+        /* Fill actual values row by row */
+        for (int i = 1; i < m.length; i++) {
+            for (int j = 0; j < m[i].length; j++) {
+                double diagleft = MatrixUtils.getEnergy(am, i - 1, j - 1);
+                double straight = MatrixUtils.getEnergy(am, i - 1, j);
+                double diagright = MatrixUtils.getEnergy(am, i - 1, j + 1);
+                am[i][j] = m[i][j] + Math.min(Math.min(diagleft, diagright), straight);
+            }
+        }
+
+        return am; //your code here
+    }
+
+    /* Helper to get the value at row R and col C of a 2D, square matrix M */
+    public static double getEnergy(double[][]m, int r, int c) {
+        if (r >= m.length || r < 0 || c >= m[r].length || c < 0) {
+            return Double.POSITIVE_INFINITY;
+        } else {
+            return m[r][c];
+        }
     }
 
     /** Non-destructively accumulates a matrix M along the specified
