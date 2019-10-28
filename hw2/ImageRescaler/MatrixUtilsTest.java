@@ -24,7 +24,7 @@ public class MatrixUtilsTest {
 
         assertArrayEquals(oneColAm, MatrixUtils.accumulateVertical(oneCol));
 
-        assertArrayEquals(onesAm, MatrixUtils.accumulateVertical(onesAm)); /* Test equals */
+        assertArrayEquals(onesAm, MatrixUtils.accumulateVertical(ones)); /* Test equals */
     }
 
     public static void main(String[] args) {
