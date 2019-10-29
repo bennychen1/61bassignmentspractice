@@ -112,8 +112,38 @@ public class MatrixUtils {
      */
 
     public static double[][] accumulate(double[][] m, Orientation orientation) {
-        return null; //your code here
+        if (orientation == Orientation.VERTICAL) {
+            return accumulateVertical(m);
+        } else {
+            double[][] mt = transpose(m);
+            return transpose(accumulateVertical(mt));
+        }
     }
+
+    /* Helper function to transpose matrix M. */
+    public static double[][] transpose(double[][]m) {
+        double[][] mt = new double[m[0].length][];
+
+        for (int i = 0; i < mt.length; i++) {
+            double[] a = new double[m.length];
+            for (int j = 0; j < m.length; j++){
+                a[j] = 0;
+            }
+
+            mt[i] = a;
+        }
+
+        for (int r = 0; r < mt.length; r++) { /* The transposed matrix length (num of rows) = the num cols of M */
+            for (int c = 0; c < m.length; c++) {
+                mt[r][c] = m[c][r];
+            }
+        }
+
+        return mt;
+    }
+
+
+
 
     /** Finds the vertical seam VERTSEAM of the given matrix M.
      *
@@ -144,8 +174,43 @@ public class MatrixUtils {
      *  total energy is approximately equal.
      */
 
+
+
     public static int[] findVerticalSeam(double[][] m) {
-        return null; //your code here
+        int[] res = new int[m.length];
+
+        int curCol = findMin(m[m.length - 1], 0, m[0].length - 1);
+        res[m.length - 1] = curCol;
+
+        for (int r = m.length - 2; r >= 0; r = r - 1) {
+            if (curCol - 1 < 0) {
+                res[r] = findMin(m[r], curCol, curCol + 1);
+            } else if (curCol + 1 >= m.length) {
+                res[r] = findMin(m[r], curCol - 1, curCol);
+            } else {
+                res[r] = findMin(m[r], curCol - 1, curCol + 1);
+            }
+        }
+
+        return res; //your code here
+    }
+
+    /* Helper function to find the index of min value within a index LOW and HIGH */
+    public static int findMin(double[] m, int low, int high) {
+
+        if (m.length == 1) {
+            return 0;
+        }
+
+        double cur = m[low];
+        int index = low;
+        for (int c = low + 1; c <= high; c++) {
+            if (m[c] < cur) {
+                index = c;
+            }
+        }
+
+        return index;
     }
 
     /** Returns the SEAM of M with the given ORIENTATION.
@@ -154,7 +219,12 @@ public class MatrixUtils {
      */
 
     public static int[] findSeam(double[][] m, Orientation orientation) {
-        return null; //your code here
+
+        if (orientation == Orientation.VERTICAL) {
+            return findVerticalSeam(m);
+        } else {
+            return findVerticalSeam(transpose(m));
+        }
     }
 
     /** does nothing. ARGS not used. use for whatever purposes you'd like */

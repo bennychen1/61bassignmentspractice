@@ -6,6 +6,8 @@ import static org.junit.Assert.*;
  */
 
 public class MatrixUtilsTest {
+
+    static double DELTA = 0;
     /** FIXME
      */
     @Test
@@ -43,6 +45,81 @@ public class MatrixUtilsTest {
         assertArrayEquals(eCopy, e);
 
         assertArrayEquals(onesAm, MatrixUtils.accumulate(ones, MatrixUtils.Orientation.HORIZONTAL));
+    }
+
+    @Test
+    public void testTranspose() {
+        double[][] m = new double[][]{{1, 2, 3}, {4, 5, 6}};
+        double[][] mt = new double[][]{{1, 4}, {2, 5}, {3, 6}};
+
+
+        assertArrayEquals(mt, MatrixUtils.transpose(m));
+    }
+
+    @Test
+    public void testFindVerticalSeam() {
+
+        double[][] e = new double[][]{{2, 9, 5}, {3, 1, 7}, {5, 10, 7}};
+        int[] s = new int[]{0, 1, 0};
+
+
+        double[][] one = new double[][]{{1}, {10}, {15}};
+        int[] oneSeam = new int[]{0, 0, 0};
+
+        double[][]allOnes = new double[][]{{1, 1, 1}, {1, 1, 1}};
+        int[]sAllOnes = new int[]{0, 0};
+
+        assertEquals(totalE(e, s), totalE(e, MatrixUtils.findVerticalSeam(e)), DELTA);
+        assertEquals(2, totalE(allOnes, MatrixUtils.findVerticalSeam(allOnes)), DELTA);
+
+        assertArrayEquals(oneSeam, MatrixUtils.findVerticalSeam(one));
+    }
+
+    @Test
+    public void testFindSeams(){
+
+        double[][] horizontal = new double[][]{{2, 9, 5}, {3, 1, 7}, {5, 10 , 7}};
+        double horizontalSeam = 8;
+        double verticalSeam = 8;
+        int[] hSeam = new int[]{0, 1, 0};
+
+        double[][] allOnes = new double[][]{{1, 1, 1}, {1, 1, 1}};
+        double allOnesHSeam = 3;
+        double allOnesVSeam = 2;
+
+        assertEquals(horizontalSeam, totalEH(horizontal,
+                MatrixUtils.findSeam(horizontal, MatrixUtils.Orientation.HORIZONTAL)), DELTA);
+        assertEquals(verticalSeam, totalE(horizontal,
+                MatrixUtils.findSeam(horizontal, MatrixUtils.Orientation.VERTICAL)), DELTA);
+        assertArrayEquals(hSeam, MatrixUtils.findSeam(horizontal, MatrixUtils.Orientation.HORIZONTAL));
+
+        assertEquals(allOnesHSeam, totalEH(allOnes,
+                MatrixUtils.findSeam(allOnes, MatrixUtils.Orientation.HORIZONTAL)), DELTA);
+        assertEquals(allOnesVSeam, totalE(allOnes,
+                MatrixUtils.findSeam(allOnes, MatrixUtils.Orientation.VERTICAL)), DELTA);
+    }
+
+    /* Finds the total value of selecting element S[i] in the ith row of E */
+    public double totalE(double[][]e, int[]s) {
+        double total = 0;
+        for (int i = 0; i < e.length; i++) {
+            total += e[i][s[i]];
+        }
+
+        return total;
+    }
+
+    public double totalEH(double[][]e, int[]s) {
+        return totalE(MatrixUtils.transpose(e), s);
+    }
+
+    @Test
+    public void testFindMin() {
+        double[] m = new double[]{1, 5, 7, 2, 3};
+
+        assertEquals(0, MatrixUtils.findMin(m, 0, 4));
+        assertEquals(3, MatrixUtils.findMin(m, 3, 4));
+        assertEquals(0, MatrixUtils.findMin(m, 0, 1));
     }
 
     public static void main(String[] args) {
