@@ -177,7 +177,7 @@ public class MatrixUtils {
 
 
     public static int[] findVerticalSeam(double[][] m) {
-        m = accumulateVertical(m);
+        m = accumulateVertical(m); /* Selecting the min from the accumulated matrix */
         int[] res = new int[m.length];
 
         int curCol = findMin(m[m.length - 1], 0, m[0].length - 1);
