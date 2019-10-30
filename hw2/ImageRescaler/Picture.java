@@ -291,6 +291,10 @@ public final class Picture implements ActionListener {
         }
     }
 
+    public BufferedImage getImage() {
+        return image;
+    }
+
    /** Opens a save dialog box when the user selects "Save As" from the menu.
      */
     public void actionPerformed(ActionEvent unused) {
@@ -301,6 +305,8 @@ public final class Picture implements ActionListener {
             save(chooser.getDirectory() + File.separator + chooser.getFile());
         }
     }
+
+
 
 
    /** Tests this <tt>Picture</tt> data type. Reads a picture specified by

@@ -99,6 +99,22 @@ public class MatrixUtilsTest {
                 MatrixUtils.findSeam(allOnes, MatrixUtils.Orientation.VERTICAL)), DELTA);
     }
 
+    @Test
+    public void testFindSeamsImage(){
+        double[][]m = new double[][]{{1000000,  1000000,   1000000,   1000000},
+                {1000000,     75990,     30003,   1000000},
+                { 1000000,     30002,    103046,   1000000},
+                { 1000000,     29515,     38273,   1000000 },
+                {1000000,     73403 ,    35399 ,  1000000},
+                {1000000,   1000000,   1000000,   1000000}};
+        double minEnergy = 2060005;
+
+        double[][]a = MatrixUtils.accumulate(m, MatrixUtils.Orientation.HORIZONTAL);
+        int[]s = MatrixUtils.findSeam(m, MatrixUtils.Orientation.HORIZONTAL);
+
+        assertEquals(minEnergy, totalEH(m, MatrixUtils.findSeam(m, MatrixUtils.Orientation.HORIZONTAL)), DELTA);
+    }
+
     /* Finds the total value of selecting element S[i] in the ith row of E */
     public double totalE(double[][]e, int[]s) {
         double total = 0;

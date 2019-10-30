@@ -177,19 +177,26 @@ public class MatrixUtils {
 
 
     public static int[] findVerticalSeam(double[][] m) {
+        m = accumulateVertical(m);
         int[] res = new int[m.length];
 
         int curCol = findMin(m[m.length - 1], 0, m[0].length - 1);
         res[m.length - 1] = curCol;
 
         for (int r = m.length - 2; r >= 0; r = r - 1) {
+            int minCol;
             if (curCol - 1 < 0) {
-                res[r] = findMin(m[r], curCol, curCol + 1);
-            } else if (curCol + 1 >= m.length) {
-                res[r] = findMin(m[r], curCol - 1, curCol);
+                minCol = findMin(m[r], curCol, curCol + 1);
+                res[r] = minCol;
+            } else if (curCol + 1 >= m[r].length) {
+                minCol = findMin(m[r], curCol - 1, curCol);
+                res[r] = minCol;
             } else {
-                res[r] = findMin(m[r], curCol - 1, curCol + 1);
+                minCol = findMin(m[r], curCol - 1, curCol + 1);
+                res[r] = minCol;
             }
+
+            curCol = minCol;
         }
 
         return res; //your code here

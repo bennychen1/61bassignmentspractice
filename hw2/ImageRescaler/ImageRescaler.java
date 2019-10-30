@@ -1,5 +1,9 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.awt.Color;
+import javax.imageio.ImageIO;
 
 /**
  *  @author Josh Hug, Paul Hilfinger (style revisions).
@@ -165,5 +169,13 @@ public class ImageRescaler {
 
         inputImg.show();
         sc.pic.show();
+
+        /** To save the image
+            * File save = new File("t.png");
+            try {
+                ImageIO.write(inputImg.getImage(), "png", save);
+             } catch (IOException e) {
+                ;
+            } **/
     }
 }
