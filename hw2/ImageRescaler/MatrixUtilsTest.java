@@ -79,6 +79,7 @@ public class MatrixUtilsTest {
     public void testFindSeams(){
 
         double[][] horizontal = new double[][]{{2, 9, 5}, {3, 1, 7}, {5, 10 , 7}};
+        double[][]horizontalAcc = MatrixUtils.accumulate(horizontal, MatrixUtils.Orientation.HORIZONTAL);
         double horizontalSeam = 8;
         double verticalSeam = 8;
         int[] hSeam = new int[]{0, 1, 0};
@@ -91,7 +92,7 @@ public class MatrixUtilsTest {
                 MatrixUtils.findSeam(horizontal, MatrixUtils.Orientation.HORIZONTAL)), DELTA);
         assertEquals(verticalSeam, totalE(horizontal,
                 MatrixUtils.findSeam(horizontal, MatrixUtils.Orientation.VERTICAL)), DELTA);
-        assertArrayEquals(hSeam, MatrixUtils.findSeam(horizontal, MatrixUtils.Orientation.HORIZONTAL));
+        assertArrayEquals(hSeam, MatrixUtils.findSeam(horizontalAcc, MatrixUtils.Orientation.HORIZONTAL));
 
         assertEquals(allOnesHSeam, totalEH(allOnes,
                 MatrixUtils.findSeam(allOnes, MatrixUtils.Orientation.HORIZONTAL)), DELTA);
@@ -107,12 +108,15 @@ public class MatrixUtilsTest {
                 { 1000000,     29515,     38273,   1000000 },
                 {1000000,     73403 ,    35399 ,  1000000},
                 {1000000,   1000000,   1000000,   1000000}};
+
+        double[][] mAcc = MatrixUtils.accumulate(m, MatrixUtils.Orientation.HORIZONTAL);
         double minEnergy = 2060005;
 
-        double[][]a = MatrixUtils.accumulate(m, MatrixUtils.Orientation.HORIZONTAL);
-        int[]s = MatrixUtils.findSeam(m, MatrixUtils.Orientation.HORIZONTAL);
+        int[] hseam = new int[]{1, 2, 1, 0};
+        int[]s = MatrixUtils.findSeam(mAcc, MatrixUtils.Orientation.HORIZONTAL);
 
         assertEquals(minEnergy, totalEH(m, MatrixUtils.findSeam(m, MatrixUtils.Orientation.HORIZONTAL)), DELTA);
+        assertArrayEquals(hseam, s);
     }
 
     /* Finds the total value of selecting element S[i] in the ith row of E */
