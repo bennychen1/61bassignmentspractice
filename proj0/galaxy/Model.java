@@ -37,9 +37,11 @@ class Model {
     int _cols;
 
     /** The representation of the board as an array
-        * If the value is c, a center has been placed there
-        * If the value is b, a boundary has been placed there. */
-    String[][] _board;
+        * 0 unmarked, 1 marked for cells
+        * 2 if center;
+        * 3 if boundary is on
+      */
+    int[][] _board;
 
     /** Initializes an empty puzzle board of size DEFAULT_SIZE x DEFAULT_SIZE,
      *  with a boundary around the periphery. */
@@ -74,7 +76,7 @@ class Model {
     void init(int cols, int rows) {
         _cols = cols;
         _rows = rows;
-        _board = new String[2 *rows + 1][2 * cols + 1];
+        _board = new int[2 *rows + 1][2 * cols + 1];
         // FIXME
     }
 
@@ -105,7 +107,7 @@ class Model {
     }
 
     /** Added: returns the board representation of the model */
-    String[][] board() {
+    int[][] board() {
         return _board;
     }
 
@@ -163,7 +165,7 @@ class Model {
 
     /** Returns true iff (X, Y) is a center. */
     boolean isCenter(int x, int y) {
-        return board()[x][y] == "c"; // FIXME
+        return board()[x][y] == 2; // FIXME
     }
 
     /** Returns true iff P is a center. */
@@ -173,7 +175,8 @@ class Model {
 
     /** Returns true iff (X, Y) is a boundary. */
     boolean isBoundary(int x, int y) {
-        return board()[x][y] == "b"; // FIXME
+        return board()[x][y] == 3 || x == 0 || x == xlim() - 1
+                || y == 0 || y == ylim() - 1; // FIXME
     }
 
     /** Returns true iff P is a boundary. */
@@ -211,7 +214,7 @@ class Model {
         for (int i = 0; i < 4; i += 1) {
             int dx = (i % 2) * (2 * (i / 2) - 1),
                 dy = ((i + 1) % 2) * (2 * (i / 2) - 1);
-            if (false) { // FIXME
+            if (!isBoundary(cell.move(dx, dy))) { // FIXME
                 accreteRegion(cell.move(2 * dx, 2 * dy), region);
             }
         }
@@ -319,6 +322,11 @@ class Model {
     /** Places center at P. */
     void placeCenter(Place p) {
         // FIXME
+        if (p.x <= 0 || p.x >= xlim() - 1 || p.y <= 0 || p.y >= ylim() - 1) {
+            return;
+        } else {
+            _board[p.x][p.y] = 2;
+        }
     }
 
     /** Returns the current mark on cell (X, Y), or -1 if (X, Y) is not a valid

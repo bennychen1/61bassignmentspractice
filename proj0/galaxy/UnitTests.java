@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import ucb.junit.textui;
 
+import java.util.HashSet;
+
 /** The suite of all JUnit tests for the galaxy package.
  *  @author P. N. Hilfinger
  */
@@ -34,8 +36,8 @@ public class UnitTests {
 
     @Test
     public void testIsCenter() {
-        _m3.board()[2][2] = "c";
-        _m3.board()[5][3] = "c";
+        _m3.board()[2][2] = 2;
+        _m3.board()[5][3] = 2;
         Place cen = Place.pl(5, 3);
 
         assertTrue(_m3.isCenter(2, 2));
@@ -45,14 +47,49 @@ public class UnitTests {
 
     @Test
     public void testIsBoundary() {
-        _m3.board()[0][5] = "b";
-        _m3.board()[1][2] = "b";
+        _m3.board()[0][5] = 3;
+        _m3.board()[1][2] = 3;
 
         Place bound = Place.pl(1, 2);
 
         assertFalse(_m3.isBoundary(5, 1));
         assertTrue(_m3.isBoundary(0, 5));
         assertTrue(_m3.isBoundary(bound));
+        assertTrue(_m3.isBoundary(10, 0));
+        assertTrue(_m3.isBoundary(3, 10));
+    }
+
+    @Test
+    public void testPlaceCenter() {
+        _m3.clear();
+
+        Place intersection = Place.pl(2, 2);
+        Place cell = Place.pl(3, 9);
+        Place vEdge = Place.pl(6, 3);
+        Place hEdge = Place.pl(5, 6);
+        Place oEdge = Place.pl(5, 10);
+
+        HashSet<Place> p = new HashSet<Place>();
+
+        p.add(intersection);
+        p.add(cell);
+        p.add(vEdge);
+        p.add(hEdge);
+
+        for (Place pl : p) {
+            _m3.placeCenter(pl);
+        }
+
+        _m3.placeCenter(oEdge);
+
+        assertFalse(_m3.isCenter(5, 10));
+
+        for (Place pl : p) {
+            assertTrue(_m3.isCenter(pl));
+        }
+
+
+
     }
 
 
