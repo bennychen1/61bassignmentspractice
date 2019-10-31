@@ -37,11 +37,15 @@ class Model {
     int _cols;
 
     /** The representation of the board as an array
-        * 0 unmarked, 1 marked for cells
-        * 2 if center;
-        * 3 if boundary is on
+        * 0 unmarked, 1 marked for cell.
       */
     int[][] _board;
+
+    /** The list of centers on the board. */
+    HashSet<Place> _centers;
+
+    /** The list of boundaries toggled on. */
+    HashSet<Place> _boundaries;
 
     /** Initializes an empty puzzle board of size DEFAULT_SIZE x DEFAULT_SIZE,
      *  with a boundary around the periphery. */
@@ -69,6 +73,9 @@ class Model {
         _cols = model.cols();
         _rows = model.rows();
         _board = model.board();
+        _centers = model.centersSet();
+        _boundaries = model.boundaries();
+
         // FIXME
     }
 
@@ -77,6 +84,8 @@ class Model {
         _cols = cols;
         _rows = rows;
         _board = new int[2 *rows + 1][2 * cols + 1];
+        _centers = new HashSet<Place>();
+        _boundaries = new HashSet<Place>();
         // FIXME
     }
 
@@ -106,10 +115,23 @@ class Model {
         return 2 * _cols + 1; // FIXME
     }
 
+
     /** Added: returns the board representation of the model */
     int[][] board() {
         return _board;
     }
+
+    /** Added: returns the centers of the model. */
+    HashSet<Place> centersSet() {
+        return _centers;
+    }
+
+    /** Added: returns the boundaries of the model. */
+    HashSet<Place> boundaries() {
+        return _boundaries;
+    }
+
+
 
     /** Returns true iff (X, Y) is a valid cell. */
     boolean isCell(int x, int y) {
@@ -165,23 +187,23 @@ class Model {
 
     /** Returns true iff (X, Y) is a center. */
     boolean isCenter(int x, int y) {
-        return board()[x][y] == 2; // FIXME
+        return isCenter(Place.pl(x, y)); // FIXME
     }
 
     /** Returns true iff P is a center. */
     boolean isCenter(Place p) {
-        return isCenter(p.x, p.y); // FIXME
+        return _centers.contains(p); // FIXME
     }
 
     /** Returns true iff (X, Y) is a boundary. */
     boolean isBoundary(int x, int y) {
-        return board()[x][y] == 3 || x == 0 || x == xlim() - 1
-                || y == 0 || y == ylim() - 1; // FIXME
+        return isBoundary(Place.pl(x, y)); // FIXME
     }
 
     /** Returns true iff P is a boundary. */
     boolean isBoundary(Place p) {
-        return isBoundary(p.x, p.y);
+        return p.x == 0 || p.x == xlim() - 1 || p.y == 0 || p.y == ylim() - 1
+                || _boundaries.contains(p);
     }
 
     /** Returns true iff the puzzle board is solved, given the centers and
@@ -310,6 +332,16 @@ class Model {
      *  the value of isBoundary(X, Y) (from true to false or vice-versa).
      *  Requires that (X, Y) is an edge. */
     void toggleBoundary(int x, int y) {
+        if (isEdge(x, y)) {
+           if (isBoundary(x, y)) {
+               _boundaries.remove(Place.pl(x, y));
+           } else {
+               _boundaries.add(Place.pl(x, y));
+           }
+
+        } else {
+            return;
+        }
         // FIXME
     }
 
@@ -322,10 +354,10 @@ class Model {
     /** Places center at P. */
     void placeCenter(Place p) {
         // FIXME
-        if (p.x <= 0 || p.x >= xlim() - 1 || p.y <= 0 || p.y >= ylim() - 1) {
-            return;
+        if (p.x > 0 && p.x < xlim() - 1 && p.y > 0 && p.y < ylim() - 1) {
+            _centers.add(p);
         } else {
-            _board[p.x][p.y] = 2;
+            return;
         }
     }
 
@@ -437,7 +469,7 @@ class Model {
 
     /** Returns an unmodifiable view of the list of all centers. */
     List<Place> centers() {
-        return Collections.unmodifiableList(Collections.emptyList()); // FIXME
+        return Collections.unmodifiableList(new ArrayList<>(_centers)); // FIXME
     }
 
     @Override

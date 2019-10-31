@@ -46,20 +46,6 @@ public class UnitTests {
     }
 
     @Test
-    public void testIsBoundary() {
-        _m3.board()[0][5] = 3;
-        _m3.board()[1][2] = 3;
-
-        Place bound = Place.pl(1, 2);
-
-        assertFalse(_m3.isBoundary(5, 1));
-        assertTrue(_m3.isBoundary(0, 5));
-        assertTrue(_m3.isBoundary(bound));
-        assertTrue(_m3.isBoundary(10, 0));
-        assertTrue(_m3.isBoundary(3, 10));
-    }
-
-    @Test
     public void testPlaceCenter() {
         _m3.clear();
 
@@ -87,10 +73,39 @@ public class UnitTests {
         for (Place pl : p) {
             assertTrue(_m3.isCenter(pl));
         }
-
-
-
     }
+
+
+    @Test
+    public void testToggleBoundary() {
+        _m3.clear();
+
+        int[][]p = new int[][]{{2, 7}, {3, 8}, {10, 9}, {3, 1}, {6, 3}, {6, 3}};
+
+        for (int[] i : p) {
+            _m3.toggleBoundary(i[0], i[1]);
+        }
+
+        assertFalse(_m3.isBoundary(6, 3));
+        assertFalse(_m3.isBoundary(3, 1));
+
+        for (int i = 0; i < 3; i++) {
+            assertTrue(_m3.isBoundary(p[i][0], p[i][1]));
+        }
+    }
+
+    @Test
+    public void testCenterAndBoundary() {
+        _m3.clear();
+
+        _m3.placeCenter(2, 3);
+        _m3.toggleBoundary(2, 3);
+
+
+        assertTrue(_m3.isBoundary(2, 3));
+        assertTrue(_m3.isCenter(2, 3));
+    }
+
 
 
 
