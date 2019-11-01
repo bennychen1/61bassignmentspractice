@@ -250,7 +250,7 @@ class Model {
      * Assumes that REGION is connected. */
     private boolean isGalaxy(Place center, HashSet<Place> region) {
         for (Place cell : region) {
-            if (!region.contains(null)) { // FIXME
+            if (!region.contains(opposing(center, cell))) { // FIXME
                 return false;
             }
             for (int i = 0; i < 4; i += 1) {
@@ -259,7 +259,12 @@ class Model {
                 Place boundary = cell.move(dx, dy),
                     nextCell = cell.move(2 * dx, 2 * dy);
 
-                if (true) { // FIXME
+                if (region.contains(nextCell) && region.contains(boundary)) { // FIXME
+                    return false;
+                }
+
+                if (cell != center && _centers.contains(cell)
+                        || (boundary != center && _centers.contains(boundary))) {
                     return false;
                 }
             }
@@ -267,7 +272,7 @@ class Model {
                 int dx = 2 * (i / 2) - 1,
                     dy = 2 * (i % 2) - 1;
                 Place intersection = cell.move(dx, dy);
-                if (true) { // FIXME
+                if (intersection != center && _centers.contains(intersection)) { // FIXME
                     return false;
                 }
             }
