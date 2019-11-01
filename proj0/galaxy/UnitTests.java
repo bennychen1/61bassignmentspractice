@@ -180,6 +180,29 @@ public class UnitTests {
         assertTrue(modelCopy.isCenter(5, 5));
     }
 
+    @Test
+    public void testFindGalaxy() {
+        _m3.clear();
+
+        _m3.placeCenter(3, 5);
+        _m3.toggleBoundary(3, 2);
+        _m3.toggleBoundary(3, 8);
+        _m3.toggleBoundary(2, 5);
+        _m3.toggleBoundary(2, 7);
+        _m3.toggleBoundary(2, 3);
+        _m3.toggleBoundary(4, 3);
+        _m3.toggleBoundary(4, 5);
+        _m3.toggleBoundary(4, 7);
+
+        HashSet<Place> expectedCell = new HashSet<>();
+
+        expectedCell.add(Place.pl(3, 5));
+        expectedCell.add(Place.pl(3, 7));
+        expectedCell.add(Place.pl(3, 3));
+
+        assertEquals(expectedCell, _m3.findGalaxy(Place.pl(3, 5)));
+    }
+
 
 
 
