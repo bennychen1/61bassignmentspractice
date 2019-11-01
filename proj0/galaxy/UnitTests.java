@@ -225,8 +225,8 @@ public class UnitTests {
     public void testFindGalaxy() {
         _m3.clear();
 
-        toggleManyBoundaries(_m3, new int[][]{{3, 2}, {3, 8}, {2, 5}, {2, 7}, {2, 3},
-                {4, 3}, {4, 5}, {4, 7}});
+        toggleManyBoundaries(_m3, new int[][]{{3, 2}, {3, 8}, {2, 5}, {2, 7},
+                                              {2, 3}, {4, 3}, {4, 5}, {4, 7}});
 
         _m3.placeCenter(3, 5);
 
@@ -249,46 +249,31 @@ public class UnitTests {
         Place center2 = pl(3, 3);
         Place center3 = pl(6, 10);
 
-
         testModel.placeCenter(center1);
         testModel.placeCenter(center2);
         testModel.placeCenter(center3);
 
-        int[][] boundaries = new int[][]{{1, 10}, {2, 9}, {2, 7}, {3, 6}, {5, 6}, {6, 7}, {5, 8}, {4, 9},
-                {4, 11}, {1, 6}, {1, 4}, {1, 2}, {2, 3}, {4, 3}, {5, 4}, {5, 2}, {6, 1}, {6, 5}, {7, 8},
-                {8, 9}, {8, 11}};
+        int[][] boundaries = new int[][]{{1, 10}, {2, 9}, {2, 7}, {3, 6},
+                                         {5, 6}, {6, 7}, {5, 8}, {4, 9},
+                                         {4, 11}, {1, 6}, {1, 4},
+                                         {1, 2}, {2, 3}, {4, 3}, {5, 4},
+                                         {5, 2}, {6, 1}, {6, 5}, {7, 8},
+                                         {8, 9}, {8, 11}};
 
         toggleManyBoundaries(testModel, boundaries);
 
-
         HashSet<Place> expectedCellsCenter1 = new HashSet<Place>();
-
-        expectedCellsCenter1.add(asList(pl(1, 11), pl(3, 11), pl(3, 9),
+        expectedCellsCenter1.addAll(asList(pl(1, 11), pl(3, 11), pl(3, 9),
                 pl(3, 7), pl(5, 7)));
 
-        expectedCellsCenter1.add(pl(1, 11));
-        expectedCellsCenter1.add(pl(3, 11));
-        expectedCellsCenter1.add(pl(3, 9));
-        expectedCellsCenter1.add(pl(3, 7));
-        expectedCellsCenter1.add(pl(5, 7));
 
         HashSet<Place> expectedCellsCenter2 = new HashSet<Place>();
+        expectedCellsCenter2.addAll(asList(pl(1, 5), pl(3, 5),
+                pl(5, 5), pl(3, 3), pl(1, 1), pl(3, 1), pl(5, 1)));
 
-        expectedCellsCenter2.add(pl(1, 5));
-        expectedCellsCenter2.add(pl(3, 5));
-        expectedCellsCenter2.add(pl(5, 5));
-        expectedCellsCenter2.add(pl(3, 3));
-        expectedCellsCenter2.add(pl(1, 1));
-        expectedCellsCenter2.add(pl(3, 1));
-        expectedCellsCenter2.add(pl(5, 1));
 
         HashSet<Place> expectedCells3 = new HashSet<Place>();
-
-        expectedCells3.add(pl(5, 11));
-        expectedCells3.add(pl(7, 11));
-        expectedCells3.add(pl(5, 9));
-        expectedCells3.add(pl(7, 9));
-
+        expectedCells3.addAll(asList(pl(5, 11), pl(7, 11), pl(5, 9), pl(7, 9)));
 
         assertEquals(expectedCellsCenter1, testModel.findGalaxy(center1));
         assertEquals(expectedCellsCenter2, testModel.findGalaxy(center2));
@@ -301,7 +286,7 @@ public class UnitTests {
 
         Place center = pl(2, 3);
 
-        HashSet<Place>expected = new HashSet<Place>();
+        HashSet<Place> expected = new HashSet<Place>();
 
         expected.addAll(asList(pl(0, 0)));
 
@@ -323,7 +308,7 @@ public class UnitTests {
 
         Place center = pl(3, 4);
 
-        HashSet<Place>expected = new HashSet<>();
+        HashSet<Place> expected = new HashSet<>();
 
 
         expected.add(pl(1, 5));
@@ -331,13 +316,14 @@ public class UnitTests {
         expected.add(pl(3, 3));
         expected.add(pl(5, 3));
 
-        toggleManyBoundaries(testModel, new int[][]{{1, 4}, {2, 3}, {3, 2}, {5, 2},
-                {4,5}, {5, 4}});
+        toggleManyBoundaries(testModel, new int[][]{{1, 4}, {2, 3}, {3, 2},
+                                                    {5, 2}, {4, 5}, {5, 4}});
 
         assertEquals(expected, testModel.findGalaxy(center));
     }
 
-    /** A helper function to toggle the boundaries of model M according to x, y coordinates in B, an ix2 matrix */
+    /** A helper function to toggle the boundaries of model M according
+     * to x, y coordinates in B, an ix2 matrix */
     public void toggleManyBoundaries(Model m, int[][]b) {
 
         for (int i = 0; i < b.length; i++) {
