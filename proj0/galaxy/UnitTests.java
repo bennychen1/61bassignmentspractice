@@ -259,6 +259,10 @@ public class UnitTests {
         testModel.placeCenter(center2);
         testModel.placeCenter(center3);
 
+        int[][] boundaries = new int[][]{{1, 10}, {2, 9}, {2, 7}, {3, 6}, {5, 6}, {6, 7}, {5, 8}, {4, 9},
+                {4, 11}, {1, 6}, {1, 4}, {1, 2}, {2, 3}, {4, 3}, {5, 4}, {5, 2}, {6, 1}, {6, 5}, {7, 8},
+                {8, 9}, {8, 11}};
+
         testModel.toggleBoundary(1, 10);
         testModel.toggleBoundary(2, 9);
         testModel.toggleBoundary(2, 7);
