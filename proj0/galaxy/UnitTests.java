@@ -5,6 +5,8 @@ import org.junit.Test;
 import ucb.junit.textui;
 
 import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /** The suite of all JUnit tests for the galaxy package.
  *  @author P. N. Hilfinger
@@ -104,6 +106,45 @@ public class UnitTests {
 
         assertTrue(_m3.isBoundary(2, 3));
         assertTrue(_m3.isCenter(2, 3));
+    }
+
+    @Test
+    public void testOpposingCell() {
+        _m3.clear();
+
+        Place p0 = Place.pl(3, 5);
+        Place p1 = Place.pl(1, 5);
+        Place p2 = Place.pl(1, 7);
+        Place p3 = Place.pl(3, 3);
+        Place p4 = Place.pl(1, 3);
+        Place p5 = Place.pl(3, 9);
+
+        Place p1Opp = Place.pl(5, 5);
+        Place p2Opp = Place.pl(5, 3);
+        Place p3Opp = Place.pl(3, 7);
+        Place p4Opp = Place.pl(5, 7);
+        Place p5Opp = Place.pl(3, 1);
+
+        HashMap<Place, Place> p = new HashMap<Place, Place>();
+
+        p.put(p1, p1Opp);
+        p.put(p2, p2Opp);
+        p.put(p3, p3Opp);
+        p.put(p4, p4Opp);
+        p.put(p5, p5Opp);
+
+        for (Map.Entry<Place, Place> entry : p.entrySet()) {
+            assertEquals(entry.getValue(), _m3.opposing(p0, entry.getKey()));
+        }
+
+        assertEquals(p0, _m3.opposing(p0, p0));
+        assertNull(_m3.opposing(p0, Place.pl(7, 5)));
+
+        Place edgeCell = Place.pl(9, 3);
+
+        assertNull(_m3.opposing(edgeCell, Place.pl(7, 3)));
+        assertNull(_m3.opposing(Place.pl(6, 5), Place.pl(7, 3)));
+        
     }
 
 
