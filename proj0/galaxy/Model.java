@@ -411,7 +411,20 @@ class Model {
     /** Returns the position of the cell that is opposite P using P0 as the
      *  center, or null if that is not a valid cell address. */
     Place opposing(Place p0, Place p) {
-        return null; // FIXME
+        if (!isCell(p0) || !isCell(p)) {
+            return null;
+        }
+
+        int dx = p.x - p0.x;
+        int dy = p.y - p0.y;
+
+        Place newCell = p0.move(dx * -1, dy * -1);
+
+        if (!isCell(newCell)) {
+            return null;
+        }
+
+        return newCell; // FIXME
     }
 
     /** Returns a list of all cells "containing" PLACE if all of the cells are
