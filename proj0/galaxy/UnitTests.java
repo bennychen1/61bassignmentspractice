@@ -27,25 +27,16 @@ public class UnitTests {
     @Test
     public void testXlim() {
         assertEquals(7, _m.xlim());
-        assertEquals(5, _m2.xlim());
+        assertEquals(13, _m2.xlim());
     }
 
     @Test
     public void testYlim() {
         assertEquals(7, _m.ylim());
-        assertEquals(13, _m2.ylim());
+        assertEquals(5, _m2.ylim());
     }
 
-    @Test
-    public void testIsCenter() {
-        _m3.board()[2][2] = 2;
-        _m3.board()[5][3] = 2;
-        Place cen = Place.pl(5, 3);
 
-        assertTrue(_m3.isCenter(2, 2));
-        assertTrue(_m3.isCenter(cen));
-        assertFalse(_m3.isCenter(0, 1));
-    }
 
     @Test
     public void testPlaceCenter() {
@@ -167,6 +158,26 @@ public class UnitTests {
 
         _m3.mark(3, 5, 2);
         assertEquals(2, _m3.mark(3, 5));
+    }
+
+    @Test
+    public void testModelCopy() {
+        Model modelCopy = new Model(5, 5);
+        modelCopy.toggleBoundary(5, 2);
+        modelCopy.placeCenter(6, 1);
+
+        Model modeltoCopy = new Model(3, 3);
+        modeltoCopy.placeCenter(5, 5);
+        modeltoCopy.toggleBoundary(3, 2);
+
+        modelCopy.copy(modeltoCopy);
+        modelCopy.toggleBoundary(3, 2);
+
+        assertEquals(7, modelCopy.xlim());
+        assertEquals(7, modelCopy.ylim());
+        assertFalse(modelCopy.isBoundary(3, 2));
+        assertTrue(modeltoCopy.isBoundary(3, 2));
+        assertTrue(modelCopy.isCenter(5, 5));
     }
 
 
