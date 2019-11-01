@@ -73,8 +73,8 @@ class Model {
         _cols = model.cols();
         _rows = model.rows();
         _board = model.board();
-        _centers = model.centersSet();
-        _boundaries = model.boundaries();
+        _centers = new HashSet<Place>(model.centersSet());
+        _boundaries = new HashSet<Place>(model.boundaries());
 
         // FIXME
     }
@@ -83,7 +83,7 @@ class Model {
     void init(int cols, int rows) {
         _cols = cols;
         _rows = rows;
-        _board = new int[2 *rows + 1][2 * cols + 1];
+        _board = new int[2 *cols + 1][2 * rows + 1];
         _centers = new HashSet<Place>();
         _boundaries = new HashSet<Place>();
         // FIXME
@@ -107,12 +107,12 @@ class Model {
 
     /** Returns the number of vertical edges and cells in a row. */
     int xlim() {
-        return 2 * _rows + 1; // FIXME
+        return 2 * _cols + 1; // FIXME
     }
 
     /** Returns the number of horizontal edges and cells in a column. */
     int ylim() {
-        return 2 * _cols + 1; // FIXME
+        return 2 * _rows + 1; // FIXME
     }
 
 
@@ -272,6 +272,7 @@ class Model {
                 int dx = 2 * (i / 2) - 1,
                     dy = 2 * (i % 2) - 1;
                 Place intersection = cell.move(dx, dy);
+
                 if (intersection != center && _centers.contains(intersection)) { // FIXME
                     return false;
                 }
@@ -292,6 +293,8 @@ class Model {
      *  periphery. */
     HashSet<Place> findGalaxy(Place center) {
         HashSet<Place> galaxy = new HashSet<>();
+
+        accreteRegion(center, galaxy);
 
         // FIXME
 
