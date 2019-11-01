@@ -134,7 +134,47 @@ public class UnitTests {
         Place edgeCell = Place.pl(9, 3);
 
         assertNull(_m3.opposing(edgeCell, Place.pl(7, 3)));
-        assertNull(_m3.opposing(Place.pl(6, 5), Place.pl(7, 3)));
+    }
+
+    @Test
+    public void testOpposingIntersection() {
+        _m3.clear();
+
+        Place p0 = Place.pl(2, 8);
+
+        Place p1 = Place.pl(1, 7);
+        Place p1Opp = Place.pl(3, 9);
+
+        Place p2 = Place.pl(1, 9);
+        Place p2Opp = Place.pl(3, 7);
+
+        assertEquals(p1Opp, _m3.opposing(p0, p1));
+        assertEquals(p2Opp, _m3.opposing(p0, p2));
+    }
+
+    @Test
+    public void testOpposingHEdge() {
+
+        Place p0 = Place.pl(5, 6);
+
+        Place p1 = Place.pl(5, 9);
+        Place p1Opp = Place.pl(5, 3);
+
+        Place p2 = Place.pl(1, 7);
+        Place p2Opp = Place.pl(9, 5);
+
+        assertEquals(p1Opp, _m3.opposing(p0, p1));
+        assertEquals(p2Opp, _m3.opposing(p0, p2));
+    }
+
+    @Test
+    public void testOpposingVEdge() {
+        Place p0 = Place.pl(6, 7);
+
+        Place p1 = Place.pl(3, 9);
+        Place p1Opp = Place.pl(9, 5);
+
+        assertEquals(p1Opp, _m3.opposing(p0, p1));
     }
 
     @Test
@@ -180,6 +220,8 @@ public class UnitTests {
         assertTrue(modelCopy.isCenter(5, 5));
     }
 
+
+
     @Test
     public void testFindGalaxy() {
         _m3.clear();
@@ -201,6 +243,74 @@ public class UnitTests {
         expectedCell.add(Place.pl(3, 3));
 
         assertEquals(expectedCell, _m3.findGalaxy(Place.pl(3, 5)));
+
+    }
+
+    @Test
+    public void testModelCenters() {
+        Model testModel = new Model(5, 6);
+
+        Place center1 = Place.pl(3, 9);
+        Place center2 = Place.pl(3, 3);
+        Place center3 = Place.pl(6, 10);
+
+
+        testModel.placeCenter(center1);
+        testModel.placeCenter(center2);
+        testModel.placeCenter(center3);
+
+        testModel.toggleBoundary(1, 10);
+        testModel.toggleBoundary(2, 9);
+        testModel.toggleBoundary(2, 7);
+        testModel.toggleBoundary(3, 6);
+        testModel.toggleBoundary(5, 6);
+        testModel.toggleBoundary(6, 7);
+        testModel.toggleBoundary(5, 8);
+        testModel.toggleBoundary(4, 9);
+        testModel.toggleBoundary(4, 11);
+        testModel.toggleBoundary(1, 6);
+        testModel.toggleBoundary(1, 4);
+        testModel.toggleBoundary(1, 2);
+        testModel.toggleBoundary(2, 3);
+        testModel.toggleBoundary(4, 3);
+        testModel.toggleBoundary(5, 4);
+        testModel.toggleBoundary(5, 2);
+        testModel.toggleBoundary(6, 1);
+        testModel.toggleBoundary(6, 5);
+        testModel.toggleBoundary(7, 8);
+        testModel.toggleBoundary(8, 9);
+        testModel.toggleBoundary(8, 11);
+
+        HashSet<Place> expectedCellsCenter1 = new HashSet<Place>();
+
+        expectedCellsCenter1.add(Place.pl(1, 11));
+        expectedCellsCenter1.add(Place.pl(3, 11));
+        expectedCellsCenter1.add(Place.pl(3, 9));
+        expectedCellsCenter1.add(Place.pl(3, 7));
+        expectedCellsCenter1.add(Place.pl(5, 7));
+
+        HashSet<Place> expectedCellsCenter2 = new HashSet<Place>();
+
+        expectedCellsCenter2.add(Place.pl(1, 5));
+        expectedCellsCenter2.add(Place.pl(3, 5));
+        expectedCellsCenter2.add(Place.pl(5, 5));
+        expectedCellsCenter2.add(Place.pl(3, 3));
+        expectedCellsCenter2.add(Place.pl(1, 1));
+        expectedCellsCenter2.add(Place.pl(3, 1));
+        expectedCellsCenter2.add(Place.pl(5, 1));
+
+        HashSet<Place> expectedCells3 = new HashSet<Place>();
+
+        expectedCells3.add(Place.pl(5, 11));
+        expectedCells3.add(Place.pl(7, 11));
+        expectedCells3.add(Place.pl(5, 9));
+        expectedCells3.add(Place.pl(7, 9));
+
+
+        assertEquals(expectedCellsCenter1, testModel.findGalaxy(center1));
+        assertEquals(expectedCellsCenter2, testModel.findGalaxy(center2));
+        assertEquals(expectedCells3, testModel.findGalaxy(center3));
+
     }
 
 

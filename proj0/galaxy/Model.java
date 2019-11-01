@@ -294,7 +294,18 @@ class Model {
     HashSet<Place> findGalaxy(Place center) {
         HashSet<Place> galaxy = new HashSet<>();
 
-        accreteRegion(center, galaxy);
+        Place newCenter;
+        if (isIntersection(center)) {
+            newCenter = Place.pl(center.x + 1, center.y + 1);
+        } else if (isHoriz(center)) {
+            newCenter = Place.pl(center.x, center.y + 1);
+        } else if (isVert(center)) {
+            newCenter = Place.pl(center.x + 1, center.y);
+        } else {
+           newCenter = center;
+        }
+
+        accreteRegion(newCenter, galaxy);
 
         // FIXME
 
@@ -431,7 +442,7 @@ class Model {
     /** Returns the position of the cell that is opposite P using P0 as the
      *  center, or null if that is not a valid cell address. */
     Place opposing(Place p0, Place p) {
-        if (!isCell(p0) || !isCell(p)) {
+        if (!isCell(p)) {
             return null;
         }
 
