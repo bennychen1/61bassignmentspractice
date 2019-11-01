@@ -310,7 +310,51 @@ public class UnitTests {
         assertEquals(expectedCellsCenter1, testModel.findGalaxy(center1));
         assertEquals(expectedCellsCenter2, testModel.findGalaxy(center2));
         assertEquals(expectedCells3, testModel.findGalaxy(center3));
+    }
 
+    @Test
+    public void testFindVertical() {
+        Model testModel = new Model(3, 3);
+
+        Place center = Place.pl(2, 3);
+
+        HashSet<Place>expected = new HashSet<Place>();
+
+        expected.add(Place.pl(1, 1));
+        expected.add(Place.pl(1, 3));
+        expected.add(Place.pl(1, 5));
+        expected.add(Place.pl(3, 1));
+        expected.add(Place.pl(3, 3));
+        expected.add(Place.pl(3, 5));
+
+        testModel.toggleBoundary(4, 1);
+        testModel.toggleBoundary(4, 3);
+        testModel.toggleBoundary(4, 5);
+
+        assertEquals(expected, testModel.findGalaxy(center));
+    }
+
+    @Test
+    public void testFindHoriz() {
+        Model testModel = new Model(3, 3);
+
+        Place center = Place.pl(3, 4);
+
+        HashSet<Place>expected = new HashSet<>();
+
+        expected.add(Place.pl(1, 5));
+        expected.add(Place.pl(3, 5));
+        expected.add(Place.pl(3, 3));
+        expected.add(Place.pl(5, 3));
+
+        testModel.toggleBoundary(1, 4);
+        testModel.toggleBoundary(2, 3);
+        testModel.toggleBoundary(3, 2);
+        testModel.toggleBoundary(5, 2);
+        testModel.toggleBoundary(4, 5);
+        testModel.toggleBoundary(5, 4);
+
+        assertEquals(expected, testModel.findGalaxy(center));
     }
 
 
