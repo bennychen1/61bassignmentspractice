@@ -372,7 +372,7 @@ class Model {
         if (!isCell(x, y)) {
             return -1;
         }
-        return 0; // FIXME
+        return _board[x][y]; // FIXME
     }
 
     /** Returns the current mark on cell P, or -1 if P is not a valid cell
@@ -390,6 +390,8 @@ class Model {
         if (v < 0) {
             throw new IllegalArgumentException("bad mark value");
         }
+
+        _board[x][y] = v;
         // FIXME
     }
 
@@ -403,6 +405,10 @@ class Model {
      *  greater than or equal to 0. */
     void markAll(Collection<Place> cells, int v) {
         assert v >= 0;
+
+        for (Place c : cells) {
+            mark(c, v);
+        }
         // FIXME
     }
 
@@ -410,6 +416,12 @@ class Model {
      *  or equal to 0. */
     void markAll(int v) {
         assert v >= 0;
+
+        for (int i = 1; i <= xlim() - 2; i += 2) {
+            for (int j = 1; j <= ylim() - 2; j += 2) {
+                mark(i, j, v);
+            }
+        }
         // FIXME
     }
 

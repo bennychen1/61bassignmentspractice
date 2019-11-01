@@ -144,7 +144,29 @@ public class UnitTests {
 
         assertNull(_m3.opposing(edgeCell, Place.pl(7, 3)));
         assertNull(_m3.opposing(Place.pl(6, 5), Place.pl(7, 3)));
-        
+    }
+
+    @Test
+    public void testMarkAll() {
+        _m3.clear();
+        _m3.markAll(3);
+
+        assertEquals(3, _m3.mark(1, 5));
+        assertEquals(3, _m3.mark(7, 3));
+
+
+        HashSet<Place> c = new HashSet<Place>();
+
+        c.add(Place.pl(1, 1));
+        c.add(Place.pl(7, 1));
+
+        _m3.markAll(c, 1);
+
+        assertEquals(1, _m3.mark(1, 1));
+        assertEquals(1, _m3.mark(7, 1));
+
+        _m3.mark(3, 5, 2);
+        assertEquals(2, _m3.mark(3, 5));
     }
 
 
