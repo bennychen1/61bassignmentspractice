@@ -72,7 +72,15 @@ class Model {
 
         _cols = model.cols();
         _rows = model.rows();
-        _board = model.board();
+
+        _board = new int[2 * _rows + 1][2 * _cols + 1];
+
+        for (int i = 0; i < model.rows(); i++) {
+            int[] copy = new int[model.cols()];
+            System.arraycopy(model.board()[i], 0, copy, 0, copy.length);
+        }
+
+
         _centers = new HashSet<Place>(model.centersSet());
         _boundaries = new HashSet<Place>(model.boundaries());
 
