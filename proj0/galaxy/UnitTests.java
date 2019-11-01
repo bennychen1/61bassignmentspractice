@@ -7,6 +7,8 @@ import ucb.junit.textui;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Map;
+import static java.util.Arrays.asList;
+import static galaxy.Place.pl;
 
 /** The suite of all JUnit tests for the galaxy package.
  *  @author P. N. Hilfinger
@@ -42,18 +44,15 @@ public class UnitTests {
     public void testPlaceCenter() {
         _m3.clear();
 
-        Place intersection = Place.pl(2, 2);
-        Place cell = Place.pl(3, 9);
-        Place vEdge = Place.pl(6, 3);
-        Place hEdge = Place.pl(5, 6);
-        Place oEdge = Place.pl(5, 10);
+        Place intersection = pl(2, 2);
+        Place cell = pl(3, 9);
+        Place vEdge = pl(6, 3);
+        Place hEdge = pl(5, 6);
+        Place oEdge = pl(5, 10);
 
         HashSet<Place> p = new HashSet<Place>();
 
-        p.add(intersection);
-        p.add(cell);
-        p.add(vEdge);
-        p.add(hEdge);
+        p.addAll(asList(intersection, cell, vEdge, hEdge));
 
         for (Place pl : p) {
             _m3.placeCenter(pl);
@@ -226,15 +225,11 @@ public class UnitTests {
     public void testFindGalaxy() {
         _m3.clear();
 
+        toggleManyBoundaries(_m3, new int[][]{{3, 2}, {3, 8}, {2, 5}, {2, 7}, {2, 3},
+                {4, 3}, {4, 5}, {4, 7}});
+
         _m3.placeCenter(3, 5);
-        _m3.toggleBoundary(3, 2);
-        _m3.toggleBoundary(3, 8);
-        _m3.toggleBoundary(2, 5);
-        _m3.toggleBoundary(2, 7);
-        _m3.toggleBoundary(2, 3);
-        _m3.toggleBoundary(4, 3);
-        _m3.toggleBoundary(4, 5);
-        _m3.toggleBoundary(4, 7);
+
 
         HashSet<Place> expectedCell = new HashSet<>();
 
@@ -263,27 +258,8 @@ public class UnitTests {
                 {4, 11}, {1, 6}, {1, 4}, {1, 2}, {2, 3}, {4, 3}, {5, 4}, {5, 2}, {6, 1}, {6, 5}, {7, 8},
                 {8, 9}, {8, 11}};
 
-        testModel.toggleBoundary(1, 10);
-        testModel.toggleBoundary(2, 9);
-        testModel.toggleBoundary(2, 7);
-        testModel.toggleBoundary(3, 6);
-        testModel.toggleBoundary(5, 6);
-        testModel.toggleBoundary(6, 7);
-        testModel.toggleBoundary(5, 8);
-        testModel.toggleBoundary(4, 9);
-        testModel.toggleBoundary(4, 11);
-        testModel.toggleBoundary(1, 6);
-        testModel.toggleBoundary(1, 4);
-        testModel.toggleBoundary(1, 2);
-        testModel.toggleBoundary(2, 3);
-        testModel.toggleBoundary(4, 3);
-        testModel.toggleBoundary(5, 4);
-        testModel.toggleBoundary(5, 2);
-        testModel.toggleBoundary(6, 1);
-        testModel.toggleBoundary(6, 5);
-        testModel.toggleBoundary(7, 8);
-        testModel.toggleBoundary(8, 9);
-        testModel.toggleBoundary(8, 11);
+        toggleManyBoundaries(testModel, boundaries);
+
 
         HashSet<Place> expectedCellsCenter1 = new HashSet<Place>();
 
@@ -324,6 +300,8 @@ public class UnitTests {
 
         HashSet<Place>expected = new HashSet<Place>();
 
+        expected.addAll(asList(Place.pl(0, 0)));
+
         expected.add(Place.pl(1, 1));
         expected.add(Place.pl(1, 3));
         expected.add(Place.pl(1, 5));
@@ -331,9 +309,7 @@ public class UnitTests {
         expected.add(Place.pl(3, 3));
         expected.add(Place.pl(3, 5));
 
-        testModel.toggleBoundary(4, 1);
-        testModel.toggleBoundary(4, 3);
-        testModel.toggleBoundary(4, 5);
+        toggleManyBoundaries(testModel, new int[][]{{4, 1}, {4, 3}, {4, 5}});
 
         assertEquals(expected, testModel.findGalaxy(center));
     }
@@ -346,19 +322,24 @@ public class UnitTests {
 
         HashSet<Place>expected = new HashSet<>();
 
+
         expected.add(Place.pl(1, 5));
         expected.add(Place.pl(3, 5));
         expected.add(Place.pl(3, 3));
         expected.add(Place.pl(5, 3));
 
-        testModel.toggleBoundary(1, 4);
-        testModel.toggleBoundary(2, 3);
-        testModel.toggleBoundary(3, 2);
-        testModel.toggleBoundary(5, 2);
-        testModel.toggleBoundary(4, 5);
-        testModel.toggleBoundary(5, 4);
+        toggleManyBoundaries(testModel, new int[][]{{1, 4}, {2, 3}, {3, 2}, {5, 2},
+                {4,5}, {5, 4}});
 
         assertEquals(expected, testModel.findGalaxy(center));
+    }
+
+    /** A helper function to toggle the boundaries of model M according to x, y coordinates in B, an ix2 matrix */
+    public void toggleManyBoundaries(Model m, int[][]b) {
+
+        for (int i = 0; i < b.length; i++) {
+            m.toggleBoundary(b[i][0], b[i][1]);
+        }
     }
 
 
