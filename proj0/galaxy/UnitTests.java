@@ -102,18 +102,18 @@ public class UnitTests {
     public void testOpposingCell() {
         _m3.clear();
 
-        Place p0 = Place.pl(3, 5);
-        Place p1 = Place.pl(1, 5);
-        Place p2 = Place.pl(1, 7);
-        Place p3 = Place.pl(3, 3);
-        Place p4 = Place.pl(1, 3);
-        Place p5 = Place.pl(3, 9);
+        Place p0 = pl(3, 5);
+        Place p1 = pl(1, 5);
+        Place p2 = pl(1, 7);
+        Place p3 = pl(3, 3);
+        Place p4 = pl(1, 3);
+        Place p5 = pl(3, 9);
 
-        Place p1Opp = Place.pl(5, 5);
-        Place p2Opp = Place.pl(5, 3);
-        Place p3Opp = Place.pl(3, 7);
-        Place p4Opp = Place.pl(5, 7);
-        Place p5Opp = Place.pl(3, 1);
+        Place p1Opp = pl(5, 5);
+        Place p2Opp = pl(5, 3);
+        Place p3Opp = pl(3, 7);
+        Place p4Opp = pl(5, 7);
+        Place p5Opp = pl(3, 1);
 
         HashMap<Place, Place> p = new HashMap<Place, Place>();
 
@@ -128,24 +128,24 @@ public class UnitTests {
         }
 
         assertEquals(p0, _m3.opposing(p0, p0));
-        assertNull(_m3.opposing(p0, Place.pl(7, 5)));
+        assertNull(_m3.opposing(p0, pl(7, 5)));
 
-        Place edgeCell = Place.pl(9, 3);
+        Place edgeCell = pl(9, 3);
 
-        assertNull(_m3.opposing(edgeCell, Place.pl(7, 3)));
+        assertNull(_m3.opposing(edgeCell, pl(7, 3)));
     }
 
     @Test
     public void testOpposingIntersection() {
         _m3.clear();
 
-        Place p0 = Place.pl(2, 8);
+        Place p0 = pl(2, 8);
 
-        Place p1 = Place.pl(1, 7);
-        Place p1Opp = Place.pl(3, 9);
+        Place p1 = pl(1, 7);
+        Place p1Opp = pl(3, 9);
 
-        Place p2 = Place.pl(1, 9);
-        Place p2Opp = Place.pl(3, 7);
+        Place p2 = pl(1, 9);
+        Place p2Opp = pl(3, 7);
 
         assertEquals(p1Opp, _m3.opposing(p0, p1));
         assertEquals(p2Opp, _m3.opposing(p0, p2));
@@ -154,13 +154,13 @@ public class UnitTests {
     @Test
     public void testOpposingHEdge() {
 
-        Place p0 = Place.pl(5, 6);
+        Place p0 = pl(5, 6);
 
-        Place p1 = Place.pl(5, 9);
-        Place p1Opp = Place.pl(5, 3);
+        Place p1 = pl(5, 9);
+        Place p1Opp = pl(5, 3);
 
-        Place p2 = Place.pl(1, 7);
-        Place p2Opp = Place.pl(9, 5);
+        Place p2 = pl(1, 7);
+        Place p2Opp = pl(9, 5);
 
         assertEquals(p1Opp, _m3.opposing(p0, p1));
         assertEquals(p2Opp, _m3.opposing(p0, p2));
@@ -168,10 +168,10 @@ public class UnitTests {
 
     @Test
     public void testOpposingVEdge() {
-        Place p0 = Place.pl(6, 7);
+        Place p0 = pl(6, 7);
 
-        Place p1 = Place.pl(3, 9);
-        Place p1Opp = Place.pl(9, 5);
+        Place p1 = pl(3, 9);
+        Place p1Opp = pl(9, 5);
 
         assertEquals(p1Opp, _m3.opposing(p0, p1));
     }
@@ -187,8 +187,8 @@ public class UnitTests {
 
         HashSet<Place> c = new HashSet<Place>();
 
-        c.add(Place.pl(1, 1));
-        c.add(Place.pl(7, 1));
+        c.add(pl(1, 1));
+        c.add(pl(7, 1));
 
         _m3.markAll(c, 1);
 
@@ -233,11 +233,11 @@ public class UnitTests {
 
         HashSet<Place> expectedCell = new HashSet<>();
 
-        expectedCell.add(Place.pl(3, 5));
-        expectedCell.add(Place.pl(3, 7));
-        expectedCell.add(Place.pl(3, 3));
+        expectedCell.add(pl(3, 5));
+        expectedCell.add(pl(3, 7));
+        expectedCell.add(pl(3, 3));
 
-        assertEquals(expectedCell, _m3.findGalaxy(Place.pl(3, 5)));
+        assertEquals(expectedCell, _m3.findGalaxy(pl(3, 5)));
 
     }
 
@@ -245,9 +245,9 @@ public class UnitTests {
     public void testModelCenters() {
         Model testModel = new Model(5, 6);
 
-        Place center1 = Place.pl(3, 9);
-        Place center2 = Place.pl(3, 3);
-        Place center3 = Place.pl(6, 10);
+        Place center1 = pl(3, 9);
+        Place center2 = pl(3, 3);
+        Place center3 = pl(6, 10);
 
 
         testModel.placeCenter(center1);
@@ -263,28 +263,31 @@ public class UnitTests {
 
         HashSet<Place> expectedCellsCenter1 = new HashSet<Place>();
 
-        expectedCellsCenter1.add(Place.pl(1, 11));
-        expectedCellsCenter1.add(Place.pl(3, 11));
-        expectedCellsCenter1.add(Place.pl(3, 9));
-        expectedCellsCenter1.add(Place.pl(3, 7));
-        expectedCellsCenter1.add(Place.pl(5, 7));
+        expectedCellsCenter1.add(asList(pl(1, 11), pl(3, 11), pl(3, 9),
+                pl(3, 7), pl(5, 7)));
+
+        expectedCellsCenter1.add(pl(1, 11));
+        expectedCellsCenter1.add(pl(3, 11));
+        expectedCellsCenter1.add(pl(3, 9));
+        expectedCellsCenter1.add(pl(3, 7));
+        expectedCellsCenter1.add(pl(5, 7));
 
         HashSet<Place> expectedCellsCenter2 = new HashSet<Place>();
 
-        expectedCellsCenter2.add(Place.pl(1, 5));
-        expectedCellsCenter2.add(Place.pl(3, 5));
-        expectedCellsCenter2.add(Place.pl(5, 5));
-        expectedCellsCenter2.add(Place.pl(3, 3));
-        expectedCellsCenter2.add(Place.pl(1, 1));
-        expectedCellsCenter2.add(Place.pl(3, 1));
-        expectedCellsCenter2.add(Place.pl(5, 1));
+        expectedCellsCenter2.add(pl(1, 5));
+        expectedCellsCenter2.add(pl(3, 5));
+        expectedCellsCenter2.add(pl(5, 5));
+        expectedCellsCenter2.add(pl(3, 3));
+        expectedCellsCenter2.add(pl(1, 1));
+        expectedCellsCenter2.add(pl(3, 1));
+        expectedCellsCenter2.add(pl(5, 1));
 
         HashSet<Place> expectedCells3 = new HashSet<Place>();
 
-        expectedCells3.add(Place.pl(5, 11));
-        expectedCells3.add(Place.pl(7, 11));
-        expectedCells3.add(Place.pl(5, 9));
-        expectedCells3.add(Place.pl(7, 9));
+        expectedCells3.add(pl(5, 11));
+        expectedCells3.add(pl(7, 11));
+        expectedCells3.add(pl(5, 9));
+        expectedCells3.add(pl(7, 9));
 
 
         assertEquals(expectedCellsCenter1, testModel.findGalaxy(center1));
@@ -296,18 +299,18 @@ public class UnitTests {
     public void testFindVertical() {
         Model testModel = new Model(3, 3);
 
-        Place center = Place.pl(2, 3);
+        Place center = pl(2, 3);
 
         HashSet<Place>expected = new HashSet<Place>();
 
-        expected.addAll(asList(Place.pl(0, 0)));
+        expected.addAll(asList(pl(0, 0)));
 
-        expected.add(Place.pl(1, 1));
-        expected.add(Place.pl(1, 3));
-        expected.add(Place.pl(1, 5));
-        expected.add(Place.pl(3, 1));
-        expected.add(Place.pl(3, 3));
-        expected.add(Place.pl(3, 5));
+        expected.add(pl(1, 1));
+        expected.add(pl(1, 3));
+        expected.add(pl(1, 5));
+        expected.add(pl(3, 1));
+        expected.add(pl(3, 3));
+        expected.add(pl(3, 5));
 
         toggleManyBoundaries(testModel, new int[][]{{4, 1}, {4, 3}, {4, 5}});
 
@@ -318,15 +321,15 @@ public class UnitTests {
     public void testFindHoriz() {
         Model testModel = new Model(3, 3);
 
-        Place center = Place.pl(3, 4);
+        Place center = pl(3, 4);
 
         HashSet<Place>expected = new HashSet<>();
 
 
-        expected.add(Place.pl(1, 5));
-        expected.add(Place.pl(3, 5));
-        expected.add(Place.pl(3, 3));
-        expected.add(Place.pl(5, 3));
+        expected.add(pl(1, 5));
+        expected.add(pl(3, 5));
+        expected.add(pl(3, 3));
+        expected.add(pl(5, 3));
 
         toggleManyBoundaries(testModel, new int[][]{{1, 4}, {2, 3}, {3, 2}, {5, 2},
                 {4,5}, {5, 4}});
