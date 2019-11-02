@@ -288,14 +288,8 @@ public class UnitTests {
 
         HashSet<Place> expected = new HashSet<Place>();
 
-        expected.addAll(asList(pl(0, 0)));
-
-        expected.add(pl(1, 1));
-        expected.add(pl(1, 3));
-        expected.add(pl(1, 5));
-        expected.add(pl(3, 1));
-        expected.add(pl(3, 3));
-        expected.add(pl(3, 5));
+        expected.addAll(asList(pl(1, 1), pl(1, 3), pl(1, 5), pl(3, 1),
+                pl(3, 3), pl(3, 5)));
 
         toggleManyBoundaries(testModel, new int[][]{{4, 1}, {4, 3}, {4, 5}});
 
@@ -320,6 +314,29 @@ public class UnitTests {
                                                     {5, 2}, {4, 5}, {5, 4}});
 
         assertEquals(expected, testModel.findGalaxy(center));
+    }
+
+    @Test
+    public void testStrayBoundaries() {
+        _m3.clear();
+
+        Place c1 = pl(3, 3);
+        _m3.placeCenter(c1);
+
+        toggleManyBoundaries(_m3, new int[][]{{1, 6}, {3, 6}, {5, 6},
+                {6, 5}, {6, 1}, {5, 4}, {5, 2}, {1, 2}, {4, 3}});
+
+        assertNull(_m3.findGalaxy(c1));
+
+        _m3.toggleBoundary(2, 1);
+        _m3.toggleBoundary(4, 3);
+
+        assertNull(_m3.findGalaxy(c1));
+
+        _m3.toggleBoundary(2, 1);
+        Place c2 = pl(2, 5);
+
+        assertNull(_m3.findGalaxy(c1));
     }
 
     /** A helper function to toggle the boundaries of model M according

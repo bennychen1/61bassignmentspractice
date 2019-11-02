@@ -267,7 +267,7 @@ class Model {
                 Place boundary = cell.move(dx, dy),
                     nextCell = cell.move(2 * dx, 2 * dy);
 
-                if (region.contains(nextCell) && region.contains(boundary)) { // FIXME
+                if (region.contains(nextCell) && _boundaries.contains(boundary)) { // FIXME
                     return false;
                 }
 
