@@ -6,6 +6,7 @@ import ucb.junit.textui;
 
 import java.util.HashSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import static java.util.Arrays.asList;
 import static galaxy.Place.pl;
@@ -339,6 +340,35 @@ public class UnitTests {
         assertNull(_m3.findGalaxy(c1));
     }
 
+    @Test
+    public void testUnmarkedContaining() {
+        _m3.clear();
+
+        Place intersection = pl(2, 8);
+        Place hEdge = pl(3, 4);
+        Place vEdge = pl(6, 3);
+        Place cell = pl(7, 7);
+
+        List<Place> iCellsExpected = asList(pl(1, 9), pl(1, 7),
+                pl(3, 9), pl(3, 7));
+        List<Place> iCellsActual = _m3.unmarkedContaining(intersection);
+
+        List<Place> hEdgeCells = asList(pl(3, 5), pl(3, 3));
+        List<Place> hCellsActual = _m3.unmarkedContaining(hEdge);
+
+        List<Place> vEdgeCells = asList(pl(5, 3), pl(7, 3));
+        List<Place> vCellsActual = _m3.unmarkedContaining(vEdge);
+
+        List<Place> cellCells = asList(pl(7, 7));
+
+        checkListEquals(iCellsActual, iCellsExpected);
+        checkListEquals(hEdgeCells, hCellsActual);
+        checkListEquals(vEdgeCells, vCellsActual);
+        assertEquals(cellCells, _m3.unmarkedContaining(cell));
+    }
+
+
+
     /** A helper function to toggle the boundaries of model M according
      * to x, y coordinates in B, an ix2 matrix */
     public void toggleManyBoundaries(Model m, int[][]b) {
@@ -346,6 +376,12 @@ public class UnitTests {
         for (int i = 0; i < b.length; i++) {
             m.toggleBoundary(b[i][0], b[i][1]);
         }
+    }
+
+    /** A helper function to see if LIST A and LIST B
+     * have the same size and same elements regardless of order. */
+    public void checkListEquals(List<Place> A, List<Place>B) {
+        assertTrue(A.size() == B.size() && A.containsAll(B));
     }
 
 
