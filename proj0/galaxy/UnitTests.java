@@ -4,10 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import ucb.junit.textui;
 
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import static java.util.Arrays.asList;
 import static galaxy.Place.pl;
 
@@ -365,6 +363,61 @@ public class UnitTests {
         checkListEquals(hEdgeCells, hCellsActual);
         checkListEquals(vEdgeCells, vCellsActual);
         assertEquals(cellCells, _m3.unmarkedContaining(cell));
+    }
+
+    @Test
+    public void testUnMarkedSymAdjacent() {
+        _m3.clear();
+
+        Place center = pl(5, 5);
+        _m3.mark(3, 7, 1);
+
+        List<Place> region = asList(pl(3, 5), pl(7, 5));
+
+        List<Place> addedRegion = _m3.unmarkedSymAdjacent(center, region);
+
+        assertTrue(addedRegion.containsAll(asList(pl(5, 1),
+                pl(5, 3), pl(5, 7), pl(5, 9))));
+    }
+
+    @Test
+    public void testUMSAEmpty() {
+        _m3.clear();
+
+        Place center = pl(9, 3);
+        List<Place> region = asList(pl(9, 5));
+        _m3.mark(9, 1, 1);
+
+        assertEquals(Collections.emptyList(), _m3.unmarkedSymAdjacent(center, region));
+    }
+
+    @Test
+    public void testUMSA2() {
+        _m3.clear();
+
+        Place c = pl(3, 5);
+
+        _m3.mark(3, 7, 1);
+
+        Place r1 = pl(1, 1);
+        Place r2 = pl(3, 1);
+        Place r3 = pl(5, 1);
+        Place r4 = pl(5, 3);
+        Place r5 = pl(5, 5);
+        Place r6 = pl(5, 7);
+        Place r7 = pl(5, 9);
+
+        Place a1 = pl(3, 9);
+        Place a2 = pl(1, 9);
+        Place a3 = pl(1, 7);
+        Place a4 = pl(1, 5);
+        Place a5 = pl(1, 3);
+
+        List<Place> region = asList(r1, r2, r3, r4, r5, r6, r7, c);
+
+        List<Place> addedRegion = _m3.unmarkedSymAdjacent(c, region);
+
+        assertTrue(addedRegion.containsAll(asList(a1, a2, a3, a4, a5)));
     }
 
 
