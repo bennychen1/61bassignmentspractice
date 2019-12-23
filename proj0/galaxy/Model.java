@@ -513,10 +513,14 @@ class Model {
         for (Place r : region) {
             assert isCell(r);
             for (int i = 0; i < 4; i += 1) {
-                Place p = r.move(0, 0); // FIXME
-                Place opp = opposing(center, p);
-                if (false) { // FIXME
-                    result.add(p);
+                Place p = r.move(((i % 2) * (2 * (i / 2) - 1)) * 2, (((i + 1) % 2) * (2 * (i / 2) - 1)) * 2); // FIXME
+                if (!isCell(p) || mark(p) != 0 || region.contains(p)) {
+                    continue;
+                } else {
+                    Place opp = opposing(center, p);
+                    if (isCell(opp) && mark(opp) == 0 && !result.contains(p)) { // FIXME
+                        result.add(p);
+                    }
                 }
             }
 

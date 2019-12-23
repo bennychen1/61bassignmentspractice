@@ -371,13 +371,15 @@ public class UnitTests {
 
         Place center = pl(5, 5);
         _m3.mark(3, 7, 1);
+        _m3.mark(3, 3, 1);
+        _m3.mark(7, 9, 1);
+        _m3.mark(9, 5, 1);
 
-        List<Place> region = asList(pl(3, 5), pl(7, 5));
+        List<Place> region = asList(pl(3, 5), pl(7, 5), pl(5,5));
 
         List<Place> addedRegion = _m3.unmarkedSymAdjacent(center, region);
 
-        assertTrue(addedRegion.containsAll(asList(pl(5, 1),
-                pl(5, 3), pl(5, 7), pl(5, 9))));
+        assertTrue(addedRegion.containsAll(asList(pl(5, 7), pl(5, 3))));
     }
 
     @Test
