@@ -428,7 +428,14 @@ public class UnitTests {
         _m3.mark(7, 9, 1);
         _m3.mark(9, 7, 2);
 
-        assertEquals()
+        assertSetEquals("find max region", asList(pl(3, 7), pl(3,9),
+                pl(5, 7), pl(5, 9)),
+                _m3.maxUnmarkedRegion(pl(4, 8)));
+    }
+
+    @Test
+    public void testMaxUnmarkedBoundariesAndCenters() {
+        _m3.clear();
     }
 
 /** Unmarked symetric adjacent: test above */
@@ -446,6 +453,14 @@ public class UnitTests {
      * have the same size and same elements regardless of order. */
     public void checkListEquals(List<Place> A, List<Place>B) {
         assertTrue(A.size() == B.size() && A.containsAll(B));
+    }
+
+    /** Checks if EXPECTED has the same elements as ACTUAL. Displays MSG if not. */
+    private <T> void assertSetEquals(String msg,
+                                     Collection<T> expected,
+                                     Collection<T> actual) {
+        assertNotNull(msg, actual);
+        assertEquals(msg, new HashSet<T>(expected), new HashSet<T>(actual));
     }
 
 
