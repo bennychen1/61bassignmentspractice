@@ -390,7 +390,7 @@ public class UnitTests {
         List<Place> region = asList(pl(9, 5));
         _m3.mark(9, 1, 1);
 
-        assertEquals(Collections.emptyList(), _m3.unmarkedSymAdjacent(center, region));
+        assertEquals(asList(center), _m3.unmarkedSymAdjacent(center, region));
     }
 
     @Test
@@ -410,8 +410,6 @@ public class UnitTests {
         Place r7 = pl(5, 9);
 
         Place a1 = pl(3, 9);
-        Place a2 = pl(1, 9);
-        Place a3 = pl(1, 7);
         Place a4 = pl(1, 5);
         Place a5 = pl(1, 3);
 
@@ -419,10 +417,21 @@ public class UnitTests {
 
         List<Place> addedRegion = _m3.unmarkedSymAdjacent(c, region);
 
-        assertTrue(addedRegion.containsAll(asList(a1, a2, a3, a4, a5)));
+        assertTrue(addedRegion.containsAll(asList(a1, a4, a5)));
     }
 
+    @Test
+    public void testMaxUnmarked() {
+        _m3.clear();
 
+        _m3.placeCenter(4, 8);
+        _m3.mark(7, 9, 1);
+        _m3.mark(9, 7, 2);
+
+        assertEquals()
+    }
+
+/** Unmarked symetric adjacent: test above */
 
     /** A helper function to toggle the boundaries of model M according
      * to x, y coordinates in B, an ix2 matrix */
