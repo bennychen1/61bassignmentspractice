@@ -436,6 +436,25 @@ public class UnitTests {
     @Test
     public void testMaxUnmarkedBoundariesAndCenters() {
         _m3.clear();
+        _m3.placeCenter(4, 8);
+        _m3.placeCenter(5, 5);
+        _m3.placeCenter(3, 2);
+        _m3.placeCenter(7, 5);
+        _m3.mark(7, 9, 5);
+        _m3.mark(9, 7, 5);
+        _m3.mark(3, 3, 1);
+        _m3.toggleBoundary(4, 7);
+        _m3.toggleBoundary(3, 8);
+        _m3.toggleBoundary(6, 5);
+
+        assertSetEquals("find max region", Collections.EMPTY_SET,
+                _m3.maxUnmarkedRegion(pl(3, 2)));
+        assertSetEquals("find max region", asList(pl(1, 9), pl(1, 5),
+                pl(3, 7), pl(3, 5), pl(5, 7),
+                pl(5, 5), pl(5, 3), pl(5, 1), pl(7, 5), pl(7, 3),
+                pl(9, 5), pl(9, 1)), _m3.maxUnmarkedRegion(pl(5, 5)));
+
+
     }
 
 /** Unmarked symetric adjacent: test above */
