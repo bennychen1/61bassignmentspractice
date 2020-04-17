@@ -454,8 +454,10 @@ public class UnitTests {
                 pl(5, 5), pl(5, 3), pl(5, 1), pl(5, 9), pl(7, 5), pl(7, 3),
                 pl(7, 1), pl(9, 5), pl(9, 1), pl(9, 3)), _m3.maxUnmarkedRegion(pl(5, 5)));
 
-
+        assertSetEquals("find max region", Collections.EMPTY_SET, _m3.maxUnmarkedRegion(pl(3, 2)));
     }
+
+
 
 /** Unmarked symetric adjacent: test above */
 
