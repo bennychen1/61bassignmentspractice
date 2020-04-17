@@ -337,6 +337,20 @@ class Model {
         region.addAll(unmarkedContaining(center));
         markAll(region, 1);
         // FIXME
+        List<Place> regionList = new ArrayList<Place>();
+        regionList.addAll(region);
+
+        List<Place> condition = unmarkedSymAdjacent(center, regionList);
+
+        while(condition.size() != 0) {
+            region.addAll(condition);
+            regionList.addAll(condition);
+            markAll(region, 1);
+            condition = unmarkedSymAdjacent(center, regionList);
+        }
+
+
+
         markAll(region, 0);
         return region;
     }

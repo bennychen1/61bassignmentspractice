@@ -429,7 +429,7 @@ public class UnitTests {
         _m3.mark(9, 7, 2);
 
         assertSetEquals("find max region", asList(pl(3, 7), pl(3,9),
-                pl(5, 7), pl(5, 9)),
+                pl(5, 7), pl(5, 9), pl(1, 9), pl(7, 7)),
                 _m3.maxUnmarkedRegion(pl(4, 8)));
     }
 
@@ -449,10 +449,10 @@ public class UnitTests {
 
         assertSetEquals("find max region", Collections.EMPTY_SET,
                 _m3.maxUnmarkedRegion(pl(3, 2)));
-        assertSetEquals("find max region", asList(pl(1, 9), pl(1, 5),
-                pl(3, 7), pl(3, 5), pl(5, 7),
-                pl(5, 5), pl(5, 3), pl(5, 1), pl(7, 5), pl(7, 3),
-                pl(9, 5), pl(9, 1)), _m3.maxUnmarkedRegion(pl(5, 5)));
+        assertSetEquals("find max region", asList(pl(1, 9), pl(1, 5), pl(1, 7),
+                pl(3, 7), pl(3, 5), pl(3, 9), pl(5, 7),
+                pl(5, 5), pl(5, 3), pl(5, 1), pl(5, 9), pl(7, 5), pl(7, 3),
+                pl(7, 1), pl(9, 5), pl(9, 1), pl(9, 3)), _m3.maxUnmarkedRegion(pl(5, 5)));
 
 
     }
