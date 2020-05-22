@@ -471,6 +471,13 @@ class Model {
         int dx = p.x - p0.x;
         int dy = p.y - p0.y;
 
+        int newx = p0.x + dx * -1;
+        int newy = p0.y + dy * -1;
+
+        if (newx < 0 || newx > ylim() || newy < 0 || newy > ylim()) {
+            return null;
+        }
+
         Place newCell = p0.move(dx * -1, dy * -1);
 
         if (!isCell(newCell)) {
