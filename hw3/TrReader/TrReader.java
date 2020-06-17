@@ -22,6 +22,36 @@ public class TrReader extends Reader {
 
     }
 
+    @Override
+    public int read(char[] cbuf, int off, int len) throws IOException {
+        int curChar = this.str.read();
+
+        if (curChar == -1) {
+            return -1;
+        }
+
+        String s = Integer.toString(curChar);
+        int count = 0;
+        while (curChar != -1 && len > 0 && off < cbuf.length) {
+            if (s == this.from) {
+                s = this.to;
+            }
+            cbuf[off] = s.charAt(0);
+
+            off += 1;
+            len -= 1;
+            count += 1;
+            curChar = this.str.read();
+        }
+
+        return count;
+    }
+
+    @Override
+    public void close() throws IOException {
+        this.str.close();
+    }
+
     // FILL IN
     // NOTE: Until you fill in the right methods, the compiler will
     //       reject this file, saying that you must declare TrReader

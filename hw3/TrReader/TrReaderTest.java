@@ -1,7 +1,4 @@
-import java.io.FileReader;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.IOException;
+import java.io.*;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -19,7 +16,7 @@ public class TrReaderTest {
      * source for this test, but scrambled. */
     @Test
     public void testSource() throws IOException {
-        Reader r = makeStringReader(new FileReader("TrReaderTest.java"), 4096);
+        Reader r = makeStringReader(new FileReader("TrReader/TrReaderTest.java"), 4096);
 
         TrReader trR = new TrReader(r, "import jav.", "josh hug___");
         char[] cbuf = new char[250];
@@ -28,6 +25,8 @@ public class TrReaderTest {
         String result = new String(cbuf);
         assertEquals(TRANSLATION.substring(0, 250), result);
     }
+
+
 
     /** Return a StringReader that contains the contents delivered by R,
      *  up to MAXSIZE characters.  All end-of-line sequences in the
