@@ -24,24 +24,26 @@ public class TrReader extends Reader {
 
     @Override
     public int read(char[] cbuf, int off, int len) throws IOException {
-        int curChar = this.str.read();
+        int curCharInt = this.str.read();
 
-        if (curChar == -1) {
+        if (curCharInt == -1) {
             return -1;
         }
 
-        String s = Integer.toString(curChar);
+        char curChar = (char) curCharInt;
+
         int count = 0;
         while (curChar != -1 && len > 0 && off < cbuf.length) {
-            if (s == this.from) {
-                s = this.to;
-            }
-            cbuf[off] = s.charAt(0);
+           if (this.from.indexOf(curChar) != -1) {
+               curChar = this.to.charAt(this.from.indexOf(curChar));
+           }
+
+           cbuf[off] = curChar;
 
             off += 1;
             len -= 1;
             count += 1;
-            curChar = this.str.read();
+            curChar = (char) this.str.read();
         }
 
         return count;
