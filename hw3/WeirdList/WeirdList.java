@@ -3,16 +3,21 @@
  */
 public class WeirdList {
     /** The empty sequence of integers. */
-    public static final WeirdList EMPTY =
-        null;  // REPLACE THIS LINE WITH THE RIGHT ANSWER.
+    public static final WeirdList EMPTY = new emptyWeirdList();// REPLACE THIS LINE WITH THE RIGHT ANSWER.
+    public int head;
+    public WeirdList tail;
 
     /** A new WeirdList whose head is HEAD and tail is TAIL. */
-    public WeirdList(int head, WeirdList tail) { /* FILL IN */ }
+    public WeirdList(int head, WeirdList tail) {
+        this.head = head;
+        this.tail = tail;
+        /* FILL IN */
+    }
 
     /** Returns the number of elements in the sequence that
      *  starts with THIS. */
     public int length() {
-        return 0;  // REPLACE THIS LINE WITH THE RIGHT ANSWER.
+        return 1 + this.tail.length();  // REPLACE THIS LINE WITH THE RIGHT ANSWER.
     }
 
     /** Return a string containing my contents as a sequence of numerals
