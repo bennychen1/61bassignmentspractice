@@ -25,13 +25,14 @@ public class WeirdList {
      *  5, 4, and 2, this returns " 5 4 2". */
     @Override
     public String toString() {
-        return ""; // REPLACE THIS LINE WITH THE RIGHT ANSWER.
+        return " " + Integer.toString(this.head)  + this.tail.toString(); // REPLACE THIS LINE WITH THE RIGHT ANSWER.
     }
 
     /** Part 3b: Apply FUNC.apply to every element of THIS WeirdList in
      *  sequence, and return a WeirdList of the resulting values. */
     public WeirdList map(IntUnaryFunction func) {
-        return null;  // REPLACE THIS LINE WITH THE RIGHT ANSWER.
+        return new WeirdList(func.apply(this.head),
+                    this.tail.map(func));  // REPLACE THIS LINE WITH THE RIGHT ANSWER.
     }
 
     /*

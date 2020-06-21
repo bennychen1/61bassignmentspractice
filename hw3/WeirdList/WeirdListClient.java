@@ -3,7 +3,7 @@ class WeirdListClient {
 
     /** Return the result of adding N to each element of L. */
     static WeirdList add(WeirdList L, int n) {
-        return null; // REPLACE THIS LINE WITH THE RIGHT ANSWER.
+        return L.map(new addFunc(n)); // REPLACE THIS LINE WITH THE RIGHT ANSWER.
     }
 
     /** Return the sum of the elements in L. */
@@ -19,4 +19,14 @@ class WeirdListClient {
      * You are still forbidden to use any of the following:
      *       if, switch, while, for, do, try, or the ?: operator.
      */
+    private static class addFunc implements IntUnaryFunction {
+        int toAdd;
+        public addFunc(int x) {
+            this.toAdd = x;
+        }
+
+        public int apply(int x) {
+            return x + toAdd;
+        }
+    }
 }
