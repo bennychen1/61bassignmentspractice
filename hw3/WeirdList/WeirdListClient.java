@@ -8,7 +8,9 @@ class WeirdListClient {
 
     /** Return the sum of the elements in L. */
     static int sum(WeirdList L) {
-        return 0; // REPLACE THIS LINE WITH THE RIGHT ANSWER.
+        cumulutiveSum s = new cumulutiveSum();
+        L.map(s);
+        return s.curSum;// REPLACE THIS LINE WITH THE RIGHT ANSWER.
     }
 
     /* As with WeirdList, you'll need to add an additional class or
@@ -20,13 +22,25 @@ class WeirdListClient {
      *       if, switch, while, for, do, try, or the ?: operator.
      */
     private static class addFunc implements IntUnaryFunction {
-        int toAdd;
+        private int toAdd;
         public addFunc(int x) {
             this.toAdd = x;
         }
 
         public int apply(int x) {
             return x + toAdd;
+        }
+    }
+
+    private static class cumulutiveSum implements IntUnaryFunction {
+        private int curSum;
+
+        cumulutiveSum() {
+        }
+
+        public int apply(int x) {
+            curSum += x;
+            return x;
         }
     }
 }
