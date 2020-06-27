@@ -33,7 +33,7 @@ class WeirdListClient {
     }
 
     private static class cumulutiveSum implements IntUnaryFunction {
-        private int curSum;
+        private int curSum; /* use the fact that this is a instance variable to store values */
 
         cumulutiveSum() {
         }
