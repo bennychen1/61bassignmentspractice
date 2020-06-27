@@ -16,10 +16,6 @@ public class WeirdListClientTest {
 
         assertEquals(result.toString(), WeirdListClient.add(w2, 2).toString());
 
-        WeirdList zero = WeirdList.EMPTY;
-
-        assertEquals(" 2", WeirdListClient.add(zero, 2).toString());
-
     }
     @Test
     public void testSum() {
