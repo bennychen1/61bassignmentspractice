@@ -16,13 +16,33 @@ public class LinkedListDeque<T> {
     }
     /**Constructor for empty linked list */
     public LinkedListDeque(){
-        sentinel = new IntNode(null, null, null); /* Generic, so sentinel can't be any one type */
+        sentinel = new IntNode(null, null, null); /* Generic, so sentinel can't be any one type, choose null */
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
     }
 
     /**Add item X to the front of the list */
     public void addFirst(T x) {
         sentinel.next = new IntNode(x, sentinel.next, sentinel);
         this.size += 1;
+
+        if (sentinel.prev == sentinel) {
+            sentinel.prev = sentinel.next;
+        }
+
+        sentinel.next.next.prev = sentinel.next;
+    }
+
+    /** Add itme X to the end of the list */
+    public void addLast(T x) {
+        sentinel.prev = new IntNode(x, sentinel, sentinel.prev);
+        this.size += 1;
+
+        if (sentinel.next == sentinel) {
+            sentinel.next = sentinel.prev;
+        }
+
+        sentinel.prev.prev.next = sentinel.prev;
     }
 
     /** Returns the size of the linked list */

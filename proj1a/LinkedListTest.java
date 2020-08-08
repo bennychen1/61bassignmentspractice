@@ -16,6 +16,22 @@ public class LinkedListTest {
     }
 
     @Test
+    public void testAddLast() {
+        LinkedListDeque<String> d = new LinkedListDeque<>();
+        d.addLast("One");
+
+        assertEquals("One", d.get(0));
+        assertEquals(1, d.size());
+
+        d.addLast("Two");
+        assertEquals(2, d.size());
+        assertEquals("Two", d.get(1));
+
+        d.addFirst("NewOne");
+        assertEquals("Two", d.get(2));
+    }
+
+    @Test
     public void testGet() {
         LinkedListDeque<String> s = new LinkedListDeque<>();
         LinkedListDeque<Integer> e = new LinkedListDeque<>();
