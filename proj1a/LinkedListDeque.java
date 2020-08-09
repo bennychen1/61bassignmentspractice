@@ -55,6 +55,38 @@ public class LinkedListDeque<T> {
         return size == 0;
     }
 
+    /** Removes and returns the first item of the list (after the sentinel) */
+    public T removeFirst() {
+        if (this.isEmpty()) {
+            return null;
+        }
+
+        size -= 1;
+
+        T toReturn = sentinel.next.item;
+
+        sentinel.next = sentinel.next.next;
+        sentinel.next.prev = sentinel;
+
+        return toReturn;
+    }
+
+    /** Removes and returns the last item of the list.  */
+    public T removeLast() {
+        if (this.isEmpty()) {
+            return null;
+        }
+
+        T toReturn = sentinel.prev.item;
+
+        sentinel.prev = sentinel.prev.prev;
+        sentinel.prev.prev = sentinel;
+
+        this.size -= 1;
+
+        return toReturn;
+    }
+
     /** Returns the Ith item of the linked list - start at 0 index.
      *If I is larger than size, return null*/
     public T get(int i) {
@@ -70,7 +102,6 @@ public class LinkedListDeque<T> {
         }
 
         return p.item;
-
     }
 
 
