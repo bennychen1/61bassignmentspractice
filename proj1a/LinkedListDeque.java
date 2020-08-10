@@ -66,6 +66,8 @@ public class LinkedListDeque<T> {
         T toReturn = sentinel.next.item;
 
         sentinel.next = sentinel.next.next;
+        sentinel.next.prev.next = null;
+        sentinel.next.prev.prev = null;
         sentinel.next.prev = sentinel;
 
         return toReturn;
@@ -79,8 +81,11 @@ public class LinkedListDeque<T> {
 
         T toReturn = sentinel.prev.item;
 
+
         sentinel.prev = sentinel.prev.prev;
-        sentinel.prev.prev = sentinel;
+        sentinel.prev.next.prev = null;
+        sentinel.prev.next.next = null;
+        sentinel.prev.next = sentinel;
 
         this.size -= 1;
 
@@ -102,6 +107,20 @@ public class LinkedListDeque<T> {
         }
 
         return p.item;
+    }
+
+    /** Prints the items in the list */
+    public void printDeque() {
+        IntNode p = sentinel.next;
+
+        StringBuilder toPrint = new StringBuilder();
+
+        for (int i = 0; i < size; i++) {
+            toPrint.append(p.item + " ");
+        }
+
+        System.out.println(toPrint);
+
     }
 
 
