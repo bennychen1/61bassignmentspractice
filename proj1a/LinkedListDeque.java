@@ -21,6 +21,17 @@ public class LinkedListDeque<T> {
         sentinel.prev = sentinel;
     }
 
+    /** Creates a deep copy of a LinkedListDeque OTHER */
+    public LinkedListDeque(LinkedListDeque other) {
+        sentinel = new IntNode(null, null, null);
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
+
+        for (int i = 0; i < other.size(); i++) {
+            this.addLast((T) other.get(i));
+        }
+    }
+
     /**Add item X to the front of the list */
     public void addFirst(T x) {
         sentinel.next = new IntNode(x, sentinel.next, sentinel);
@@ -119,8 +130,23 @@ public class LinkedListDeque<T> {
             toPrint.append(p.item + " ");
         }
 
-        System.out.println(toPrint);
+        System.out.println(toPrint + "\n");
+    }
 
+    /** Recursively returns the INDEX-th item in the list*/
+    public T getRecusrive(int index) {
+        if (isEmpty() || index > size()) {
+            return null;
+        }
+
+        if (index == 0) {
+            return this.sentinel.next.item;
+        }
+
+        LinkedListDeque<T> p = new LinkedListDeque<>(this);
+        p.removeFirst();
+
+        return p.getRecusrive(index - 1);
     }
 
 

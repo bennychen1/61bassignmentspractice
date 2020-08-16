@@ -108,4 +108,37 @@ public class LinkedListTest {
         assertNull(d.removeLast());
     }
 
+    @Test
+    public void testLinkedListCopy() {
+        LinkedListDeque<String> o = new LinkedListDeque<>();
+        o.addFirst("One");
+        o.addLast("Two");
+        o.addLast("Three");
+        LinkedListDeque<String> d = new LinkedListDeque<>(o);
+
+        assertEquals("One", d.get(0));
+
+        d.addFirst("Ten");
+
+        assertEquals("One", o.get(0));
+    }
+
+    @Test
+    public void testLinkedListGetRecursive() {
+        LinkedListDeque<String> d = new LinkedListDeque<>();
+        d.addFirst("Apple");
+        d.addFirst("Banana");
+        d.addLast("Orange");
+        d.removeLast();
+        d.addLast("Grape");
+
+        assertEquals("Grape", d.getRecusrive(2));
+
+        d.removeFirst();
+        d.removeLast();
+        d.removeFirst();
+
+        assertNull(d.getRecusrive(0));
+    }
+
 }
