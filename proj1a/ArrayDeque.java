@@ -49,7 +49,7 @@ public class ArrayDeque<T> {
         track[nextLast] = 2;
         items[nextLast] = x;
 
-        if (nextLast == size - 1) {
+        if (nextLast == items.length - 1) { /* Shouldn't use size here because size changes */
             nextLast = 0;
         } else {
             nextLast += 1;
@@ -58,11 +58,61 @@ public class ArrayDeque<T> {
         size += 1;
     }
 
+    /** Removes and returns the first element of the array, returns null if there are no elements */
+    public T removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        T toReturn = this.get(0);
+
+        int toRemoveIndex;
+
+        if (nextFirst == items.length - 1) {
+            toRemoveIndex = 0;
+            nextFirst = 0;
+        } else {
+            toRemoveIndex = nextFirst + 1;
+            nextFirst += 1;
+        }
+
+        items[toRemoveIndex] = null;
+
+        size -= 1;
+
+        return toReturn;
+    }
+
+    /** Returns and removes the last item in the array, returns null if array has no elements*/
+    public T removeLast() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        T toReturn = this.get(size - 1);
+
+        int toRemoveIndex;
+
+        if (nextLast == 0) {
+            toRemoveIndex = size - 1;
+            nextLast = size - 1;
+        } else {
+            toRemoveIndex = nextLast - 1;
+            nextLast -= 1;
+        }
+
+        items[toRemoveIndex] = null;
+
+        size -= 1;
+
+        return toReturn;
+    }
+
     /** Returns the element at the INDEX index of the array */
     public T get(int index) {
         int returnIndex = nextFirst + 1 + index;
 
-        if (returnIndex >= items.length - 1) {
+        if (returnIndex >= items.length) {
             returnIndex = returnIndex - items.length; /* Shouldn't use size here since size changes*/
         }
         return items[returnIndex];
@@ -71,6 +121,11 @@ public class ArrayDeque<T> {
     /** Returns the number of elements in the array*/
     public int size() {
         return size;
+    }
+
+    /** Returns true if array is empty, false otherwise */
+    public boolean isEmpty() {
+        return size == 0;
     }
 
     /** Resizes the array to an array of size CAPACITY*/

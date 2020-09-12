@@ -1,7 +1,26 @@
 import org.junit.Test;
+
+import java.lang.reflect.Array;
+
 import static org.junit.Assert.*;
 
 public class ArrayDequeTest {
+
+    public ArrayDeque<Integer> createArrayDeque() {
+        ArrayDeque<Integer> a = new ArrayDeque<>();
+
+        a.addFirst(20);
+        a.addFirst(10);
+        a.addLast(30);
+        a.addLast(50);
+        a.addLast(60);
+        a.addLast(70);
+        a.addLast(80);
+        a.addLast(90);
+
+        return a;
+
+    }
     @Test
     public void testAddFirst() {
         ArrayDeque<Integer> a = new ArrayDeque<>();
@@ -24,5 +43,112 @@ public class ArrayDequeTest {
         assertEquals(3, a.size());
         assertEquals(Integer.valueOf(3), a.get(0));
         assertEquals(Integer.valueOf(6), a.get(2));
+    }
+
+    @Test
+    public void addBoth() {
+        ArrayDeque<Integer> a = new ArrayDeque<>();
+        a.addLast(10);
+        a.addLast(11);
+        a.addLast(12);
+        a.addFirst(13);
+        a.addFirst(14);
+        a.addFirst(17);
+        a.addLast(15);
+        a.addLast(16);
+
+        assertEquals(Integer.valueOf(14), a.get(1));
+        assertEquals(Integer.valueOf(13), a.get(2));
+        assertEquals(Integer.valueOf(10), a.get(3));
+        assertEquals(Integer.valueOf(15), a.get(6));
+        assertEquals(Integer.valueOf(12), a.get(5));
+    }
+
+    @Test
+    public void addBothLoop() {
+        ArrayDeque<Integer> a = createArrayDeque();
+
+        assertEquals(Integer.valueOf(70), a.get(5));
+        assertEquals(Integer.valueOf(90), a.get(7));
+    }
+
+    @Test
+    public void testRemoveFirst() {
+        ArrayDeque<Integer> a = createArrayDeque();
+
+        assertEquals(Integer.valueOf(10), a.removeFirst());
+        assertEquals(7, a.size());
+
+        assertEquals(Integer.valueOf(20), a.removeFirst());
+
+        for (int i = 0; i < 6; i++) {
+            a.removeFirst();
+        }
+
+        assertNull(a.removeFirst());
+    }
+
+    @Test
+    public void testRemoveAndAdd() {
+        ArrayDeque<Integer> a = createArrayDeque();
+
+        a.removeFirst();
+        a.removeFirst();
+
+        a.addFirst(5);
+
+        assertEquals(Integer.valueOf(5), a.get(0));
+        assertEquals(Integer.valueOf(5), a.removeFirst());
+    }
+
+    @Test
+    public void testRemoveLast() {
+        ArrayDeque<Integer> a = createArrayDeque();
+
+        assertEquals(Integer.valueOf(90), a.removeLast());
+
+        a.addFirst(15);
+
+        assertEquals(Integer.valueOf(15), a.get(0));
+        assertEquals(Integer.valueOf(80), a.get(7));
+    }
+
+    @Test
+    public void testRemoveAndAddMultiple() {
+        ArrayDeque<Integer> a = createArrayDeque();
+
+        a.removeLast();
+
+        a.addFirst(12);
+
+        a.removeLast();
+
+        assertEquals(Integer.valueOf(12), a.get(0));
+
+        for (int i = 0; i < 3; i++) {
+            a.removeFirst();
+        }
+
+        assertEquals(Integer.valueOf(30), a.get(0));
+
+        a.addLast(2);
+        a.addLast(7);
+
+        a.addFirst(7);
+        a.addFirst(10);
+
+        assertEquals(Integer.valueOf(7), a.get(7));
+        assertEquals(Integer.valueOf(7), a.get(1));
+
+        for (int i = 0; i < 9; i++) {
+            a.removeFirst();
+        }
+
+        assertTrue(a.isEmpty());
+
+        a.addLast(3);
+
+        assertEquals(Integer.valueOf(3), a.get(0));
+
     }
 }
