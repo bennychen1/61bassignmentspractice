@@ -26,10 +26,9 @@ public class ArrayDeque<T> {
 
     /** Add element X to the front of the array deque (at next first index) */
     public void addFirst(T x) {
-        /** if (items[nextFirst] != null) {
+        if (items[nextFirst] != null) {
             reSize(size * 2);
-            nextFirst = items.length - 1;
-        } */
+        }
 
         track[nextFirst] = 1;
 
@@ -131,7 +130,8 @@ public class ArrayDeque<T> {
     /** Resizes the array to an array of size CAPACITY*/
     public void reSize(int capacity) {
         T[] a = (T[]) new Object[capacity];
-        System.arraycopy(items, 0, a, 0, size);
+        System.arraycopy(items, 0, a, 0, nextLast - 1);
+        System.arraycopy(items, nextLast - 1, a, nextLast, items.length - (nextLast - 1));
         items = a;
     }
 
@@ -143,4 +143,10 @@ public class ArrayDeque<T> {
  *  new element in the zero index, but you wouldn't be resizing. This take linear time (want to take constant time)
  *  Next last and next first point to the same index, how can I tell which is which?
  *
- *  Track which indices where add first was used and which indices were add last*/
+ *  Track which indices where add first was used and which indices were add last
+ *  Condition to be full - items.length = size
+ *  Resize - move nextLast 1 index to the left (-1), nextLast 1 index to the right (+1)
+ *  add space to the right of last index, left of the first index
+ *  resize down  - remove to the left of first, right of last
+ *  move nextFirst to actual first, then center that at 2 index of new array
+ *  write something to find what is next of nextLast and next for nextFirst*/

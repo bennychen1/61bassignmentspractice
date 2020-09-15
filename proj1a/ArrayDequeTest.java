@@ -4,6 +4,8 @@ import java.lang.reflect.Array;
 
 import static org.junit.Assert.*;
 
+import java.util.Timer;
+
 public class ArrayDequeTest {
 
     public ArrayDeque<Integer> createArrayDeque() {
@@ -150,5 +152,45 @@ public class ArrayDequeTest {
 
         assertEquals(Integer.valueOf(3), a.get(0));
 
+    }
+
+    @Test
+    public void testResizeUp() {
+        ArrayDeque<Integer> a = createArrayDeque();
+
+        a.addFirst(20);
+        a.addLast(10);
+
+        assertEquals(Integer.valueOf(20), a.get(0));
+        assertEquals(Integer.valueOf(10), a.get(9));
+
+        long start1000 = System.nanoTime();
+
+        for (int i = 0; i < 1000; i++) {
+            if (i % 2 == 0) {
+                a.addFirst(i);
+            } else {
+                a.addLast(i);
+            }
+        }
+
+        long fin1000 = System.nanoTime();
+
+        long start100 = System.nanoTime();
+
+        for (int i = 0; i < 100; i++) {
+            if (i % 2 == 0) {
+                a.addFirst(i);
+            } else {
+                a.addLast(i);
+            }
+        }
+
+        long fin100 = System.nanoTime();
+
+        long elapsed100 = fin100 - start100;
+        long elapsed1000 = fin1000 - start1000;
+
+        assertTrue(fin1000/fin100 < 11);
     }
 }
