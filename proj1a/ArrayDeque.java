@@ -45,7 +45,9 @@ public class ArrayDeque<T> {
 
     /** Add item X as the last element of the array deque (at the next last index) */
     public void addLast(T x) {
-        track[nextLast] = 2;
+        if (items[nextLast] != null) {
+            reSize(size * 2);
+        }
         items[nextLast] = x;
 
         if (nextLast == items.length - 1) { /* Shouldn't use size here because size changes */
@@ -131,8 +133,26 @@ public class ArrayDeque<T> {
     public void reSize(int capacity) {
         T[] a = (T[]) new Object[capacity];
         System.arraycopy(items, 0, a, 0, nextLast - 1);
-        System.arraycopy(items, nextLast - 1, a, nextLast, items.length - (nextLast - 1));
+        System.arraycopy(items, nextLast, a, nextLast + 1 + capacity / 2, items.length - (nextFirst + 1));
         items = a;
+    }
+
+    /** A helper function to check what index nextFirst or nextLast will end up on after a call
+     * to one of those functions */
+    private int nextIndex(String func) {
+        if (func == "nextFirst") {
+            if (nextFirst == 0) {
+                return items.length - 1;
+            } else {
+                return nextFirst - 1;
+            }
+        } else { /*next last*/
+            if (nextLast == items.length - 1) {
+                return 0;
+            } else {
+                return nextLast + 1;
+            }
+        }
     }
 
 }
@@ -149,4 +169,6 @@ public class ArrayDeque<T> {
  *  add space to the right of last index, left of the first index
  *  resize down  - remove to the left of first, right of last
  *  move nextFirst to actual first, then center that at 2 index of new array
- *  write something to find what is next of nextLast and next for nextFirst*/
+ *  write something to find what is next of nextLast and next for nextFirst
+ *  Use if statements (if index of nextLast < nextFirst, nextLast > nextFirst,
+ *  Write a function to check what is the next index over (nextLast at the end of the "array" and needs to loop back</>*/

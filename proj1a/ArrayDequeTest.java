@@ -191,6 +191,8 @@ public class ArrayDequeTest {
         long elapsed100 = fin100 - start100;
         long elapsed1000 = fin1000 - start1000;
 
-        assertTrue(fin1000/fin100 < 11);
+        assertTrue(String.format("Elapsed time for 100 items was %d and elapsed time for 1000 items was %d",
+                elapsed100, elapsed1000), fin1000/fin100 < 11);
+
     }
 }
