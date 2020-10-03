@@ -27,10 +27,8 @@ public class ArrayDeque<T> {
     /** Add element X to the front of the array deque (at next first index) */
     public void addFirst(T x) {
         if (items[nextFirst] != null) {
-            reSize(size * 2);
+            resizeUp(size * 2);
         }
-
-        track[nextFirst] = 1;
 
         items[nextFirst] = x;
 
@@ -46,7 +44,7 @@ public class ArrayDeque<T> {
     /** Add item X as the last element of the array deque (at the next last index) */
     public void addLast(T x) {
         if (items[nextLast] != null) {
-            reSize(size * 2);
+            resizeUp(size * 2);
         }
         items[nextLast] = x;
 
@@ -155,6 +153,47 @@ public class ArrayDeque<T> {
         }
     }
 
+    /** A helper function that returns the index of actual last */
+    private int actualLastIndex() {
+        if (nextLast == 0) {
+            return items.length - 1;
+        } else {
+            return nextLast - 1;
+        }
+    }
+
+    /** A helper function that returns the index of actual first */
+    private int actualFirstIndex() {
+        if (nextFirst == items.length - 1) {
+            return 0;
+        } else {
+            return nextFirst + 1;
+        }
+    }
+
+    /** A helper function to move nextLast and nextFirst to actual index*/
+    private void moveIndex() {
+        this.nextFirst = actualFirstIndex();
+        this.nextLast = actualLastIndex();
+    }
+
+    /** Resizes array up*/
+    private void resizeUp(int capacity) {
+        moveIndex();
+        T[] a = (T[]) new Object[capacity];
+
+        if (nextLast < nextFirst) {
+            System.arraycopy(items, 0, a, 0, nextLast + 1);
+            int addedCapacity = capacity - items.length;
+            System.arraycopy(items, nextFirst, a,
+                    nextLast + 1 + addedCapacity, items.length - nextFirst);
+            items = a;
+
+            nextLast = nextIndex("nextLast");
+            nextFirst = nextFirst - 1 + addedCapacity; /* why is it - 1? */
+        }
+    }
+
 }
 
 /** Need to use some circular element to the array
@@ -171,4 +210,6 @@ public class ArrayDeque<T> {
  *  move nextFirst to actual first, then center that at 2 index of new array
  *  write something to find what is next of nextLast and next for nextFirst
  *  Use if statements (if index of nextLast < nextFirst, nextLast > nextFirst,
+ *  or move nextLast to actual last and nextFist to actual first
+ *  write a function to move nextLast and nextFirst to actual last and first.
  *  Write a function to check what is the next index over (nextLast at the end of the "array" and needs to loop back</>*/

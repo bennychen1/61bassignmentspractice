@@ -163,6 +163,7 @@ public class ArrayDequeTest {
 
         assertEquals(Integer.valueOf(20), a.get(0));
         assertEquals(Integer.valueOf(10), a.get(9));
+        assertEquals(Integer.valueOf(30), a.get(3));
 
         long start1000 = System.nanoTime();
 
@@ -193,6 +194,5 @@ public class ArrayDequeTest {
 
         assertTrue(String.format("Elapsed time for 100 items was %d and elapsed time for 1000 items was %d",
                 elapsed100, elapsed1000), fin1000/fin100 < 11);
-
     }
 }
