@@ -181,16 +181,24 @@ public class ArrayDeque<T> {
     private void resizeUp(int capacity) {
         moveIndex();
         T[] a = (T[]) new Object[capacity];
+        int addedCapacity = capacity - items.length;
 
         if (nextLast < nextFirst) {
             System.arraycopy(items, 0, a, 0, nextLast + 1);
-            int addedCapacity = capacity - items.length;
             System.arraycopy(items, nextFirst, a,
                     nextLast + 1 + addedCapacity, items.length - nextFirst);
             items = a;
 
             nextLast = nextIndex("nextLast");
             nextFirst = nextFirst - 1 + addedCapacity; /* why is it - 1? */
+        } else {
+            System.arraycopy(items, nextFirst, a, addedCapacity, size);
+            items = a;
+            nextFirst = nextFirst + addedCapacity;
+            nextLast = nextLast + addedCapacity;
+
+            nextFirst = nextIndex("nextFirst");
+            nextLast = nextIndex("nextLast");
         }
     }
 

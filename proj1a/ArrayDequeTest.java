@@ -195,4 +195,19 @@ public class ArrayDequeTest {
         assertTrue(String.format("Elapsed time for 100 items was %d and elapsed time for 1000 items was %d",
                 elapsed100, elapsed1000), fin1000/fin100 < 11);
     }
+
+    @Test
+    public void testResizeFirstBeforeLast() {
+        ArrayDeque<Integer> a = createArrayDeque();
+        a.removeLast();
+        a.addFirst(35);
+
+        a.addLast(15);
+        a.addFirst(16);
+
+        assertEquals(Integer.valueOf(16), a.get(0));
+        assertEquals(Integer.valueOf(15), a.get(9));
+        assertEquals(Integer.valueOf(10), a.get(2));
+
+    }
 }
