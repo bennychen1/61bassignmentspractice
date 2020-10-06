@@ -93,8 +93,8 @@ public class ArrayDeque<T> {
         int toRemoveIndex;
 
         if (nextLast == 0) {
-            toRemoveIndex = size - 1;
-            nextLast = size - 1;
+            toRemoveIndex = items.length - 1;
+            nextLast = items.length - 1;
         } else {
             toRemoveIndex = nextLast - 1;
             nextLast -= 1;
@@ -103,6 +103,10 @@ public class ArrayDeque<T> {
         items[toRemoveIndex] = null;
 
         size -= 1;
+
+        if (items.length >= 16 && (double) size / (double) items.length < 0.25) {
+            resizeSmall((int) (size / 0.25));
+        }
 
         return toReturn;
     }
@@ -202,6 +206,27 @@ public class ArrayDeque<T> {
         }
     }
 
+    /** Resize array smaller */
+    private void resizeSmall(int capacity) {
+        moveIndex();
+        T[]a = (T[]) new Object[capacity];
+        int subtractedCapacity = items.length - capacity;
+
+        if (nextLast < nextFirst) {
+            System.arraycopy(items, 0, a, 0, nextLast + 1);
+            System.arraycopy(items, nextFirst, a,
+                    nextLast + 1 + subtractedCapacity, items.length - nextFirst);
+            items = a;
+            nextLast = nextIndex("nextLast");
+            nextFirst = nextFirst - subtractedCapacity - 1;
+        } else {
+            System.arraycopy(items, nextFirst, a, 0, size);
+            items = a;
+            nextLast = size;
+            nextFirst = items.length - 1;
+        }
+    }
+
 }
 
 /** Need to use some circular element to the array
@@ -220,4 +245,9 @@ public class ArrayDeque<T> {
  *  Use if statements (if index of nextLast < nextFirst, nextLast > nextFirst,
  *  or move nextLast to actual last and nextFist to actual first
  *  write a function to move nextLast and nextFirst to actual last and first.
- *  Write a function to check what is the next index over (nextLast at the end of the "array" and needs to loop back</>*/
+ *  Write a function to check what is the next index over (nextLast at the end of the "array" and needs to loop back</>
+ *  Would resize down be the same with the only change is addedCapacity becomes addedCapacity * -1?
+ *  Capacity will be size / 0.25 rounded down
+ *  only resize down if items.length >= 16
+ *  resize at the end of a remove first or remove last
+ *  since only resize if size >= 16, resize when there are 3 numbers to an array of size 12.*/

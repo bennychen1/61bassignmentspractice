@@ -210,4 +210,22 @@ public class ArrayDequeTest {
         assertEquals(Integer.valueOf(10), a.get(2));
 
     }
+
+    @Test
+    public void testResizeSmall() {
+        ArrayDeque<Integer> a = createArrayDeque();
+        a.addFirst(35);
+        for (int i = 0; i < 6; i++) {
+            a.removeLast();
+        }
+
+        assertEquals(Integer.valueOf(35), a.get(0));
+        assertEquals(Integer.valueOf(20), a.get(2));
+
+        a.addFirst(15);
+        a.addLast(16);
+
+        assertEquals(Integer.valueOf(16), a.get(4));
+        assertEquals(Integer.valueOf(35), a.get(1));
+    }
 }
