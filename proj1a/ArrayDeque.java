@@ -1,119 +1,90 @@
 public class ArrayDeque<T> {
-    /** ITEMS array */
-    T[] items;
+    /** ITEMS array. */
+    private T[] items;
 
-    /** Number of non null elements in ITEMS */
-    int size;
+    /** Number of non null elements in ITEMS. */
+    private int size;
 
-    /** The index to place element when inserting first */
-    int nextFirst;
+    /** The index to place element when inserting first. */
+    private int nextFirst;
 
-    /** The index to place element when inserting last */
-    int nextLast;
-
-
+    /** The index to place element when inserting last. */
+    private int nextLast;
 
 
-    /** Instantiate a empty array deque that starts with 8 memory boxes */
-    public ArrayDeque() {
+    /** Instantiate a empty array deque that starts with 8 memory boxes. */
+    ArrayDeque() {
         items = (T[]) new Object[8];
         nextFirst = 2;
         nextLast = 3;
     }
 
-    /** Add element X to the front of the array deque (at next first index) */
-    public void addFirst(T x) {
-        if (items[nextFirst] != null) {
-            resizeUp(size * 2);
-        }
+    /** Add element X to the front of the array deque (at next first index). */
+    void addFirst(T x) {
+        resizeUpIfNeeded(nextFirst);
 
         items[nextFirst] = x;
 
-        if (nextFirst == 0) {
-            nextFirst = items.length - 1;
-        } else {
-            nextFirst -= 1;
-        }
+        nextFirst = nextIndex("nextFirst");
 
         size += 1;
     }
 
-    /** Add item X as the last element of the array deque (at the next last index) */
-    public void addLast(T x) {
-        if (items[nextLast] != null) {
-            resizeUp(size * 2);
-        }
+    /** Add item X as the last element of the array deque
+     * (at the next last index). */
+    void addLast(T x) {
+        resizeUpIfNeeded(nextLast);
         items[nextLast] = x;
 
-        if (nextLast == items.length - 1) { /* Shouldn't use size here because size changes */
-            nextLast = 0;
-        } else {
-            nextLast += 1;
-        }
+        nextLast = nextIndex("nextLast");
 
         size += 1;
     }
 
-    /** Removes and returns the first element of the array, returns null if there are no elements */
-    public T removeFirst() {
+    /** Removes and returns the first element of the array,
+     * returns null if there are no elements. */
+    T removeFirst() {
         if (isEmpty()) {
             return null;
         }
 
         T toReturn = this.get(0);
 
-        int toRemoveIndex;
-
-        if (nextFirst == items.length - 1) {
-            toRemoveIndex = 0;
-            nextFirst = 0;
-        } else {
-            toRemoveIndex = nextFirst + 1;
-            nextFirst += 1;
-        }
+        int toRemoveIndex = actualFirstIndex();
+        nextFirst = actualFirstIndex();
 
         items[toRemoveIndex] = null;
 
         size -= 1;
 
-        if (items.length >= 16 && (double) size / (double) items.length < 0.25) {
-            resizeSmall((int) (size / 0.25));
-        }
+        resizeDownIfNeeded();
 
         return toReturn;
     }
 
-    /** Returns and removes the last item in the array, returns null if array has no elements*/
-    public T removeLast() {
+    /** Returns and removes the last item in the array,
+     * returns null if array has no elements.*/
+    T removeLast() {
         if (isEmpty()) {
             return null;
         }
 
-        T toReturn = this.get(size - 1);
+        T toReturn = items[actualLastIndex()];
 
-        int toRemoveIndex;
-
-        if (nextLast == 0) {
-            toRemoveIndex = items.length - 1;
-            nextLast = items.length - 1;
-        } else {
-            toRemoveIndex = nextLast - 1;
-            nextLast -= 1;
-        }
+        int toRemoveIndex = actualLastIndex();
+        nextLast = actualLastIndex();
 
         items[toRemoveIndex] = null;
 
         size -= 1;
 
-        if (items.length >= 16 && (double) size / (double) items.length < 0.25) {
-            resizeSmall((int) (size / 0.25));
-        }
+        resizeDownIfNeeded();
 
         return toReturn;
     }
 
-    /** Returns the element at the INDEX index of the array */
-    public T get(int index) {
+    /** Returns the element at the INDEX index of the array. */
+    T get(int index) {
         int returnIndex = nextFirst + 1 + index;
 
         if (returnIndex >= items.length) {
@@ -122,20 +93,21 @@ public class ArrayDeque<T> {
         return items[returnIndex];
     }
 
-    /** Returns the number of elements in the array*/
-    public int size() {
+    /** Returns the number of elements in the array.*/
+    int size() {
         return size;
     }
 
-    /** Returns true if array is empty, false otherwise */
-    public boolean isEmpty() {
+    /** Returns true if array is empty, false otherwise.*/
+    boolean isEmpty() {
         return size == 0;
     }
 
 
 
-    /** A helper function to check what index nextFirst or nextLast will end up on after a call
-     * to one of those functions */
+    /** A helper function to returns what index (FUNC) nextFirst or nextLast
+     * will end up on after a call
+     * to one of those functions. */
     private int nextIndex(String func) {
         if (func == "nextFirst") {
             if (nextFirst == 0) {
@@ -152,7 +124,7 @@ public class ArrayDeque<T> {
         }
     }
 
-    /** A helper function that returns the index of actual last */
+    /** A helper function that returns the index of actual last. */
     private int actualLastIndex() {
         if (nextLast == 0) {
             return items.length - 1;
@@ -161,7 +133,7 @@ public class ArrayDeque<T> {
         }
     }
 
-    /** A helper function that returns the index of actual first */
+    /** A helper function that returns the index of actual first. */
     private int actualFirstIndex() {
         if (nextFirst == items.length - 1) {
             return 0;
@@ -170,13 +142,26 @@ public class ArrayDeque<T> {
         }
     }
 
-    /** A helper function to move nextLast and nextFirst to actual index*/
+    /** A helper function to move nextLast and nextFirst to actual index.*/
     private void moveIndex() {
         this.nextFirst = actualFirstIndex();
         this.nextLast = actualLastIndex();
     }
 
-    /** Resizes array up*/
+    /** Resizes up if needed (INDEX is not null). */
+    private void resizeUpIfNeeded(int index) {
+        if (items[index] != null) {
+            resizeUp(items.length * 2);
+        }
+    }
+    /** Resizes array down if needed. */
+    private void resizeDownIfNeeded() {
+        if (items.length >= 16 && (double) size / (double) items.length < 0.25) {
+            resizeSmall((int) (size / 0.25));
+        }
+    }
+
+    /** Resizes array up to an array of size CAPACITY.*/
     private void resizeUp(int capacity) {
         moveIndex();
         T[] a = (T[]) new Object[capacity];
@@ -185,7 +170,7 @@ public class ArrayDeque<T> {
         if (nextLast < nextFirst) {
             System.arraycopy(items, 0, a, 0, nextLast + 1);
             System.arraycopy(items, nextFirst, a,
-                    nextLast + 1 + addedCapacity, items.length - nextFirst);
+                    a.length - items.length + nextFirst, items.length - nextFirst);
             items = a;
 
             nextLast = nextIndex("nextLast");
@@ -201,7 +186,7 @@ public class ArrayDeque<T> {
         }
     }
 
-    /** Resize array smaller */
+    /** Resize array to a smaller array of size CAPACITY. */
     private void resizeSmall(int capacity) {
         moveIndex();
         T[]a = (T[]) new Object[capacity];
