@@ -11,8 +11,6 @@ public class ArrayDeque<T> {
     /** The index to place element when inserting last */
     int nextLast;
 
-    /** An array to track whether the index was filled by add first (1) or add last (2), or empty (0) */
-    int[] track;
 
 
 
@@ -21,7 +19,6 @@ public class ArrayDeque<T> {
         items = (T[]) new Object[8];
         nextFirst = 2;
         nextLast = 3;
-        track = new int[8];
     }
 
     /** Add element X to the front of the array deque (at next first index) */
@@ -79,6 +76,10 @@ public class ArrayDeque<T> {
 
         size -= 1;
 
+        if (items.length >= 16 && (double) size / (double) items.length < 0.25) {
+            resizeSmall((int) (size / 0.25));
+        }
+
         return toReturn;
     }
 
@@ -131,13 +132,7 @@ public class ArrayDeque<T> {
         return size == 0;
     }
 
-    /** Resizes the array to an array of size CAPACITY*/
-    public void reSize(int capacity) {
-        T[] a = (T[]) new Object[capacity];
-        System.arraycopy(items, 0, a, 0, nextLast - 1);
-        System.arraycopy(items, nextLast, a, nextLast + 1 + capacity / 2, items.length - (nextFirst + 1));
-        items = a;
-    }
+
 
     /** A helper function to check what index nextFirst or nextLast will end up on after a call
      * to one of those functions */
@@ -215,7 +210,7 @@ public class ArrayDeque<T> {
         if (nextLast < nextFirst) {
             System.arraycopy(items, 0, a, 0, nextLast + 1);
             System.arraycopy(items, nextFirst, a,
-                    nextLast + 1 + subtractedCapacity, items.length - nextFirst);
+                     a.length - items.length + nextFirst, items.length - nextFirst);
             items = a;
             nextLast = nextIndex("nextLast");
             nextFirst = nextFirst - subtractedCapacity - 1;
@@ -250,4 +245,6 @@ public class ArrayDeque<T> {
  *  Capacity will be size / 0.25 rounded down
  *  only resize down if items.length >= 16
  *  resize at the end of a remove first or remove last
- *  since only resize if size >= 16, resize when there are 3 numbers to an array of size 12.*/
+ *  since only resize if size >= 16, resize when there are 3 numbers to an array of size 12 (smallest capacity).
+ *  nextLast < nextFirst, Find the number of elements from nextFirst onward.
+ *  Go to the resized array, last index - number of elements to find where to start array copy*/
