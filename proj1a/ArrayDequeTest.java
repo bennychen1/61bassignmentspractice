@@ -155,6 +155,29 @@ public class ArrayDequeTest {
     }
 
     @Test
+    public void testRemoveFirstOverlapWithLast() {
+        ArrayDeque<Integer> a = createArrayDeque();
+
+        for (int i = 0; i < 5; i++) {
+            a.removeFirst();
+        }
+
+        assertEquals(Integer.valueOf(70), a.get(0));
+
+    }
+
+    @Test
+    public void testRemoveLastOverLapWithFirst() {
+        ArrayDeque<Integer> a = createArrayDeque();
+
+        for (int i = 0; i < 6; i++) {
+            a.removeLast();
+        }
+
+        assertEquals(Integer.valueOf(20), a.get(1));
+    }
+
+    @Test
     public void testResizeUp() {
         ArrayDeque<Integer> a = createArrayDeque();
 
@@ -227,5 +250,20 @@ public class ArrayDequeTest {
 
         assertEquals(Integer.valueOf(16), a.get(4));
         assertEquals(Integer.valueOf(35), a.get(1));
+    }
+
+    @Test
+    public void testResizeNextFirstInFrontOfLast() {
+        ArrayDeque<Integer> a = createArrayDeque();
+
+
+        a.addLast(10);
+        a.removeLast();
+
+        for (int i = 0; i < 6; i++) {
+            a.removeFirst();
+        }
+
+        a.addLast(10);
     }
 }

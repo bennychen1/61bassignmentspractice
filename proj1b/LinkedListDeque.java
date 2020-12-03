@@ -1,4 +1,4 @@
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T>{
     IntNode sentinel;
     private int size;
 
@@ -33,6 +33,7 @@ public class LinkedListDeque<T> {
         }
     }
 
+    @Override
     /**Add item X to the front of the list */
     public void addFirst(T x) {
         sentinel.next = new IntNode(x, sentinel.next, sentinel);
@@ -45,6 +46,7 @@ public class LinkedListDeque<T> {
         sentinel.next.next.prev = sentinel.next;
     }
 
+    @Override
     /** Add itme X to the end of the list */
     public void addLast(T x) {
         sentinel.prev = new IntNode(x, sentinel, sentinel.prev);
@@ -57,16 +59,13 @@ public class LinkedListDeque<T> {
         sentinel.prev.prev.next = sentinel.prev;
     }
 
+    @Override
     /** Returns the size of the linked list */
     public int size() {
         return this.size;
     }
 
-    /** Returns true is linkedlist is empty, false otherwise */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
+    @Override
     /** Removes and returns the first item of the list (after the sentinel) */
     public T removeFirst() {
         if (this.isEmpty()) {
@@ -85,6 +84,7 @@ public class LinkedListDeque<T> {
         return toReturn;
     }
 
+    @Override
     /** Removes and returns the last item of the list.  */
     public T removeLast() {
         if (this.isEmpty()) {
@@ -104,6 +104,7 @@ public class LinkedListDeque<T> {
         return toReturn;
     }
 
+    @Override
     /** Returns the Ith item of the linked list - start at 0 index.
      *If I is larger than size, return null*/
     public T get(int i) {
@@ -121,6 +122,7 @@ public class LinkedListDeque<T> {
         return p.item;
     }
 
+    @Override
     /** Prints the items in the list */
     public void printDeque() {
         IntNode p = sentinel.next;
@@ -152,3 +154,4 @@ public class LinkedListDeque<T> {
 
 
 }
+
