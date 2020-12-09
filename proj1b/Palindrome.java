@@ -1,6 +1,6 @@
 public class Palindrome {
 
-
+    /** Creates and returns a Deque from the characters of WORD. */
     public Deque<Character> wordToDeque(String word) {
         LinkedListDeque<Character> letters = new LinkedListDeque<>();
         for (int i = 0; i < word.length(); i++) {
@@ -9,6 +9,7 @@ public class Palindrome {
         return letters;
     }
 
+    /** Returns TRUE if WORD is a palindrome, FALSE otherwise */
     public boolean isPalindrome(String word) {
         /*Deque<Character> regWord = wordToDeque(word);
 
@@ -23,6 +24,8 @@ public class Palindrome {
 
     }
 
+    /** Helper method for isPalindrome. Returns TRUE is the characters in WORDDEQUE
+     * are from a palindrome. */
     private boolean isPalinDromeHelper(Deque<Character> wordDeque) {
         if (wordDeque.size() <= 1) {
             return true;
