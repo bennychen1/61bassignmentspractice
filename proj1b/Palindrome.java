@@ -34,4 +34,20 @@ public class Palindrome {
         return wordDeque.removeFirst() == wordDeque.removeLast()
                 && isPalinDromeHelper(wordDeque);
     }
+
+    /** Returns true if WORD is a palindrome according to the definition of equal characters
+     * provided by character comparator CC. */
+    public boolean isPalindrome(String word, CharacterComparator cc) {
+        return isPalindromeCCHelper(wordToDeque(word), cc);
+    }
+
+    /** Helper function for isPalindrome with a character comparator. */
+    private boolean isPalindromeCCHelper(Deque<Character> wordDeque, CharacterComparator cc) {
+        if (wordDeque.size() <= 1) {
+            return true;
+        }
+
+        return cc.equalChars(wordDeque.removeFirst(), wordDeque.removeLast()) &&
+                isPalindromeCCHelper(wordDeque, cc);
+    }
 }
